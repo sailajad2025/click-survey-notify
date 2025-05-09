@@ -5,27 +5,27 @@ export const BenefitsList = () => {
   const benefits = [
     {
       title: "Boost Academic Performance",
-      description: "Stay on top of homework, projects, and exams with ZenTask's academic tracking features. Students can organize their assignments, set reminders for due dates, and track their progress, leading to improved grades and a greater sense of accomplishment."
+      description: "Stay on top of homework, projects, and exams with smart tracking features that help improve grades and build accomplishment."
     },
     {
       title: "Cultivate Responsibility and Independence",
-      description: "ZenTask encourages students to take ownership of their responsibilities. By managing their own schedules and tasks, they develop crucial life skills that will benefit them far beyond the classroom."
+      description: "Empower students to take ownership of their schedules and tasks, developing crucial life skills that extend beyond the classroom."
     },
     {
-      title: "Academic and Activity Balance",
-      description: "Ensure perfect balance between studies and extracurriculars for optimal development."
+      title: "Academic and Activities Balance",
+      description: "Ensure perfect balance between studies and extracurriculars for optimal development and well-rounded growth."
     },
     {
       title: "Automatic Updates",
-      description: "School emails automatically sync to give the alerts."
+      description: "School emails automatically sync, ensuring timely alerts for important events such as orientation sessions, parent-teacher meetings, and other key updates."
     },
     {
       title: "Reduced Mental Load",
-      description: "Stop carrying schedules in your head - let ZenTask remember everything for you."
+      description: "Stop carrying schedules in your head - let ZenTask remember everything for you and your child."
     },
     {
       title: "Stay Effortlessly Informed",
-      description: "ZenTask keeps you in the loop with timely alerts about your child's after-school classes, homework deadlines, and completed tasks — so you never have to ask, guess, or worry."
+      description: "Receive timely alerts about after-school classes, homework deadlines, and completed tasks — no more guessing or worrying."
     }
   ];
 
