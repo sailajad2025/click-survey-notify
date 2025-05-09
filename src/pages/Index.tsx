@@ -125,7 +125,7 @@ const Index = () => {
                 <div className="flex justify-center mb-8">
                   <Button 
                     size="lg"
-                    className="bg-[#FFDEE2] text-[#1EAEDB] hover:bg-[#FFD0D6] font-medium px-8 py-3 h-auto text-lg rounded-full"
+                    className="bg-[#D946EF] text-[#1EAEDB] hover:bg-[#C026D3] font-medium px-8 py-3 h-auto text-lg rounded-full"
                     onClick={openSurvey}
                   >
                     <span className="font-bold">Take Our Survey</span> <ArrowRight className="ml-1" />
