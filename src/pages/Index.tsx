@@ -25,7 +25,7 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header/Navigation */}
-      <header className="w-full py-6 px-4 bg-primary">
+      <header className="w-full py-6 px-4 bg-gradient-to-r from-[#9b87f5] to-[#8B5CF6]">
         <div className="container mx-auto text-center">
           <h1 className="text-3xl font-bold text-white">ZenTask</h1>
         </div>
@@ -36,8 +36,8 @@ const Index = () => {
         <section className="py-10 md:py-16 bg-white">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto mb-6">
-              <h2 className="text-3xl md:text-4xl font-bold mb-5 text-primary">
-                Is keeping track of your child's school activities, homework, and extracurriculars a <span className="text-primary">juggling</span> act?
+              <h2 className="text-3xl md:text-4xl font-bold mb-5 text-[#8B5CF6]">
+                Is keeping track of your child's school activities, homework, and extracurriculars a <span className="text-[#FF9F1C]">juggling</span> act?
               </h2>
               
               <div className="flex justify-center mb-6">
@@ -45,7 +45,7 @@ const Index = () => {
                   onClick={() => {
                     document.getElementById("waitlist-form")?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 h-auto text-lg rounded-full mx-auto"
+                  className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white font-medium px-8 py-3 h-auto text-lg rounded-full mx-auto"
                 >
                   Join Our Waitlist
                 </Button>
@@ -59,10 +59,10 @@ const Index = () => {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-16 bg-yellow-50">
+        <section className="py-16 bg-[#FEF7CD]">
           <div className="container mx-auto px-4 text-center">
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary/90">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#7E69AB]">
                 Unlock Your Child's Potential with ZenTask:
               </h2>
             </div>
@@ -72,7 +72,7 @@ const Index = () => {
         </section>
 
         {/* Ready to Experience Section */}
-        <section className="py-16 bg-primary">
+        <section className="py-16 bg-gradient-to-r from-[#9b87f5] to-[#8B5CF6]">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
               <div className="text-center md:text-center">
@@ -86,7 +86,7 @@ const Index = () => {
                 <div className="flex justify-center mb-8">
                   <Button 
                     size="lg"
-                    className="bg-white text-primary hover:bg-gray-100 font-medium px-8 py-3 h-auto text-lg rounded-full"
+                    className="bg-white text-[#7E69AB] hover:bg-gray-100 font-medium px-8 py-3 h-auto text-lg rounded-full"
                     onClick={openSurvey}
                   >
                     Take Our Survey <ArrowRight className="ml-1" />
@@ -100,11 +100,11 @@ const Index = () => {
                       type="email" 
                       placeholder="Enter your email address" 
                       required
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-white/50"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-[#FF9F1C]"
                     />
                     <Button 
                       type="submit"
-                      className="bg-white hover:bg-gray-100 text-primary font-medium whitespace-nowrap"
+                      className="bg-[#FF9F1C] hover:bg-[#F08700] text-white font-medium whitespace-nowrap"
                     >
                       Join Waitlist
                     </Button>
@@ -115,9 +115,9 @@ const Index = () => {
               <div className="flex justify-center">
                 <div className="w-3/4 mx-auto">
                   <img 
-                    src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80" 
+                    src="/lovable-uploads/808ec54d-3556-4c54-8b57-9e82fbd92a49.png" 
                     alt="Teacher and students using tablets" 
-                    className="max-w-full h-auto rounded-lg"
+                    className="max-w-full h-auto rounded-lg shadow-lg"
                   />
                 </div>
               </div>

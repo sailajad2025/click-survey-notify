@@ -29,12 +29,32 @@ export const BenefitsList = () => {
     }
   ];
 
+  // Color array derived from the image with purple, orange/yellow, and blue tones
+  const cardColors = [
+    'bg-[#D6BCFA]', // Light purple
+    'bg-[#D3E4FD]', // Light blue
+    'bg-[#FEF7CD]', // Light yellow
+    'bg-[#D3E4FD]', // Light blue
+    'bg-[#D6BCFA]', // Light purple
+    'bg-[#FEF7CD]', // Light yellow
+  ];
+
+  // Text color array
+  const textColors = [
+    'text-[#7E69AB]', // Dark purple
+    'text-[#33C3F0]', // Bright blue
+    'text-[#FF9F1C]', // Orange/yellow
+    'text-[#33C3F0]', // Bright blue
+    'text-[#7E69AB]', // Dark purple
+    'text-[#FF9F1C]', // Orange/yellow
+  ];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
       {benefits.map((benefit, index) => (
-        <div key={index} className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="text-xl font-semibold mb-3 text-primary">{benefit.title}</h3>
-          <p className="text-gray-600">{benefit.description}</p>
+        <div key={index} className={`${cardColors[index]} p-6 rounded-xl shadow-md transition-transform hover:scale-105`}>
+          <h3 className={`text-xl font-semibold mb-3 ${textColors[index]}`}>{benefit.title}</h3>
+          <p className="text-gray-700">{benefit.description}</p>
         </div>
       ))}
     </div>
