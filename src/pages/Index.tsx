@@ -1,28 +1,40 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BenefitsList } from "@/components/BenefitsList";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, List } from "lucide-react";
 import emailjs from '@emailjs/browser';
 
 const Index = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showWaitlist, setShowWaitlist] = useState(false);
+  const [waitlistEmails, setWaitlistEmails] = useState<string[]>([]);
+  
+  // Load emails from localStorage on component mount
+  useEffect(() => {
+    const savedEmails = localStorage.getItem('waitlistEmails');
+    if (savedEmails) {
+      setWaitlistEmails(JSON.parse(savedEmails));
+    }
+  }, []);
   
   const handleWaitlistSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      // For demonstration purposes, we'll use a simpler approach
-      // that doesn't require EmailJS credentials
-      
       // Log the submission (for demonstration)
       console.log("Email submitted to waitlist:", email);
+      
+      // Store the email in localStorage
+      const updatedEmails = [...waitlistEmails, email];
+      localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
+      setWaitlistEmails(updatedEmails);
       
       // Simulate a small delay to mimic network request
       await new Promise(resolve => setTimeout(resolve, 800));
@@ -64,15 +76,60 @@ const Index = () => {
   const openSurvey = () => {
     window.open("https://tally.so/r/meyybo", "_blank");
   };
+  
+  const clearWaitlist = () => {
+    localStorage.removeItem('waitlistEmails');
+    setWaitlistEmails([]);
+    toast({
+      title: "Waitlist Cleared",
+      description: "All waitlist email addresses have been cleared.",
+    });
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header/Navigation */}
       <header className="w-full py-6 px-4 bg-[#2454AA]">
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto text-center flex justify-between items-center">
           <h1 className="text-3xl font-bold text-white">ZenTask</h1>
+          <Button 
+            variant="ghost"
+            className="text-white hover:bg-[#1A4080]/50"
+            onClick={() => setShowWaitlist(!showWaitlist)}
+          >
+            <List className="h-5 w-5 mr-1" /> Admin
+          </Button>
         </div>
       </header>
+
+      {/* Admin Panel for Waitlist */}
+      {showWaitlist && (
+        <div className="bg-white p-4 border-b shadow-md">
+          <div className="container mx-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Waitlist Emails</h2>
+              <Button variant="destructive" size="sm" onClick={clearWaitlist}>
+                Clear All
+              </Button>
+            </div>
+            
+            {waitlistEmails.length === 0 ? (
+              <p className="text-gray-500 italic">No emails in waitlist yet.</p>
+            ) : (
+              <div className="bg-gray-50 p-4 rounded-md max-h-60 overflow-y-auto">
+                <ul className="space-y-2">
+                  {waitlistEmails.map((email, index) => (
+                    <li key={index} className="bg-white p-2 rounded border">
+                      {email}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-sm text-gray-500">Total: {waitlistEmails.length} email(s)</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <main className="flex-grow">
         {/* Hero Section */}
