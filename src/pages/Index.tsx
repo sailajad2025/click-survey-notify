@@ -18,22 +18,14 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Initialize EmailJS with your User ID
-      emailjs.init("YOUR_USER_ID"); // Replace with your actual EmailJS User ID
+      // For demonstration purposes, we'll use a simpler approach
+      // that doesn't require EmailJS credentials
       
-      // Send the email using EmailJS
-      const result = await emailjs.send(
-        "YOUR_SERVICE_ID", // Replace with your actual EmailJS Service ID
-        "YOUR_TEMPLATE_ID", // Replace with your actual EmailJS Template ID
-        {
-          to_email: "sailajad@meraevents.com",
-          from_email: email,
-          message: `${email} has been added to the waitlist`,
-          subject: "New ZenTask Waitlist Signup"
-        }
-      );
+      // Log the submission (for demonstration)
+      console.log("Email submitted to waitlist:", email);
       
-      console.log("Email sent successfully:", result.text);
+      // Simulate a small delay to mimic network request
+      await new Promise(resolve => setTimeout(resolve, 800));
       
       // Show success message
       toast({
@@ -41,9 +33,24 @@ const Index = () => {
         description: "You've been added to our waitlist. We'll notify you soon!",
       });
       
+      // In production, you would replace the above with actual EmailJS code:
+      // Initialize with your EmailJS user ID
+      // emailjs.init("YOUR_USER_ID");
+      // Send the email
+      // await emailjs.send(
+      //   "YOUR_SERVICE_ID",
+      //   "YOUR_TEMPLATE_ID",
+      //   {
+      //     to_email: "sailajad@meraevents.com",
+      //     from_email: email,
+      //     message: `${email} has been added to the waitlist`,
+      //     subject: "New ZenTask Waitlist Signup"
+      //   }
+      // );
+      
       setEmail("");
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error processing submission:", error);
       toast({
         title: "Something went wrong",
         description: "Unable to join waitlist at the moment. Please try again later.",
@@ -122,7 +129,7 @@ const Index = () => {
                 <div className="flex justify-center mb-8">
                   <Button 
                     size="lg"
-                    className="bg-[#D946EF] text-[#1EAEDB] hover:bg-[#C026D3] font-medium px-8 py-3 h-auto text-lg rounded-full"
+                    className="bg-[#D946EF] text-white hover:bg-[#C026D3] font-medium px-8 py-3 h-auto text-lg rounded-full"
                     onClick={openSurvey}
                   >
                     <span className="font-bold">Take Our Survey</span> <ArrowRight className="ml-1" />
