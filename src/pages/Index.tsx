@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { BenefitsList } from "@/components/BenefitsList";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight } from "lucide-react";
+import emailjs from '@emailjs/browser';
 
 const Index = () => {
   const { toast } = useToast();
@@ -16,12 +18,22 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // For demo purposes, simulate successful submission
-      // In a real application, replace this with actual EmailJS or API implementation
-      console.log("Submitting email:", email);
+      // Initialize EmailJS with your User ID
+      emailjs.init("YOUR_USER_ID"); // Replace with your actual EmailJS User ID
       
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Send the email using EmailJS
+      const result = await emailjs.send(
+        "YOUR_SERVICE_ID", // Replace with your actual EmailJS Service ID
+        "YOUR_TEMPLATE_ID", // Replace with your actual EmailJS Template ID
+        {
+          to_email: "sailajad@meraevents.com",
+          from_email: email,
+          message: `${email} has been added to the waitlist`,
+          subject: "New ZenTask Waitlist Signup"
+        }
+      );
+      
+      console.log("Email sent successfully:", result.text);
       
       // Show success message
       toast({
@@ -29,14 +41,9 @@ const Index = () => {
         description: "You've been added to our waitlist. We'll notify you soon!",
       });
       
-      // Send an email notification (in production, implement server-side)
-      if (email) {
-        console.log("Email would be sent to sailajad@meraevents.com with:", email);
-      }
-      
       setEmail("");
     } catch (error) {
-      console.error("Error processing submission:", error);
+      console.error("Error sending email:", error);
       toast({
         title: "Something went wrong",
         description: "Unable to join waitlist at the moment. Please try again later.",
