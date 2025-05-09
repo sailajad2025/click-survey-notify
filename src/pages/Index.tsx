@@ -1,39 +1,21 @@
 
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { BenefitsList } from "@/components/BenefitsList";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight } from "lucide-react";
 
 const Index = () => {
   const { toast } = useToast();
-  const [email, setEmail] = useState("");
   
   const handleWaitlistSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!email) {
-      toast({
-        title: "Error",
-        description: "Please enter an email address",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    // Create mailto link with the entered email address
-    const subject = encodeURIComponent("New Waitlist Signup");
-    const body = encodeURIComponent(`New signup from: ${email}`);
-    window.location.href = `mailto:sailajad@meraevents.com?subject=${subject}&body=${body}`;
-    
-    // Show toast confirmation
     toast({
       title: "Success!",
-      description: "Opening email client to complete your waitlist signup.",
+      description: "You've been added to our waitlist. We'll notify you soon!",
     });
-    
-    // Reset the form
-    setEmail("");
   };
   
   const openSurvey = () => {
@@ -85,37 +67,7 @@ const Index = () => {
               </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold mb-3 text-primary">All-in-One Task Management</h3>
-                <p className="text-gray-600">Track homework, projects, extracurriculars, and school events in one central dashboard.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold mb-3 text-primary">Priority Assistant</h3>
-                <p className="text-gray-600">Help your child prioritize assignments and activities with our smart scheduling features.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold mb-3 text-primary">Parent-Teacher Connection</h3>
-                <p className="text-gray-600">Stay connected with teachers and receive real-time updates about your child's progress.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold mb-3 text-primary">Progress Tracking</h3>
-                <p className="text-gray-600">Celebrate successes with visual progress indicators that motivate your child.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold mb-3 text-primary">Smart Reminders</h3>
-                <p className="text-gray-600">Never miss a deadline with customizable alerts for upcoming assignments and activities.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold mb-3 text-primary">Easy to Use Interface</h3>
-                <p className="text-gray-600">Intuitive design that both parents and children can navigate with ease.</p>
-              </div>
-            </div>
+            <BenefitsList />
           </div>
         </section>
 
@@ -148,8 +100,6 @@ const Index = () => {
                       type="email" 
                       placeholder="Enter your email address" 
                       required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-white/50"
                     />
                     <Button 
