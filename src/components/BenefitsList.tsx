@@ -4,28 +4,28 @@ import React from 'react';
 export const BenefitsList = () => {
   const benefits = [
     {
-      title: "All-in-One Task Management",
-      description: "Track homework, projects, extracurriculars, and school events in one central dashboard."
+      title: "Boost Academic Performance",
+      description: "Stay on top of homework, projects, and exams with ZenTask's academic tracking features. Students can organize their assignments, set reminders for due dates, and track their progress, leading to improved grades and a greater sense of accomplishment."
     },
     {
-      title: "Priority Assistant",
-      description: "Help your child prioritize assignments and activities with our smart scheduling features."
+      title: "Cultivate Responsibility and Independence",
+      description: "ZenTask encourages students to take ownership of their responsibilities. By managing their own schedules and tasks, they develop crucial life skills that will benefit them far beyond the classroom."
     },
     {
-      title: "Parent-Teacher Connection",
-      description: "Stay connected with teachers and receive real-time updates about your child's progress."
+      title: "Academic and Activity Balance",
+      description: "Ensure perfect balance between studies and extracurriculars for optimal development."
     },
     {
-      title: "Progress Tracking",
-      description: "Celebrate successes with visual progress indicators that motivate your child."
+      title: "Automatic Updates",
+      description: "School emails automatically sync to give the alerts."
     },
     {
-      title: "Smart Reminders",
-      description: "Never miss a deadline with customizable alerts for upcoming assignments and activities."
+      title: "Reduced Mental Load",
+      description: "Stop carrying schedules in your head - let ZenTask remember everything for you."
     },
     {
-      title: "Easy to Use Interface",
-      description: "Intuitive design that both parents and children can navigate with ease."
+      title: "Stay Effortlessly Informed",
+      description: "ZenTask keeps you in the loop with timely alerts about your child's after-school classes, homework deadlines, and completed tasks — so you never have to ask, guess, or worry."
     }
   ];
 

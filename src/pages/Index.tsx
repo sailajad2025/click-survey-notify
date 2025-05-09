@@ -115,7 +115,7 @@ const Index = () => {
               <div className="flex justify-center">
                 <div className="w-3/4 mx-auto">
                   <img 
-                    src="/lovable-uploads/95625830-c35c-41b9-8599-ee5ea0f7f149.png" 
+                    src="/lovable-uploads/70f0ad6f-7af1-4a8c-b78d-b9ba6a4009eb.png" 
                     alt="Students using mobile applications" 
                     className="max-w-full h-auto rounded-lg shadow-lg"
                   />
