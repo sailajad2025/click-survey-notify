@@ -113,7 +113,7 @@ const Index = () => {
               </div>
               
               <div className="flex justify-center">
-                <div className="w-3/4 mx-auto">
+                <div className="w-2/3 mx-auto">
                   <img 
                     src="/lovable-uploads/70f0ad6f-7af1-4a8c-b78d-b9ba6a4009eb.png" 
                     alt="Students using mobile applications" 
