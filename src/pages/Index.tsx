@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BenefitsList } from "@/components/BenefitsList";
@@ -9,13 +9,52 @@ import { ArrowRight } from "lucide-react";
 
 const Index = () => {
   const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const handleWaitlistSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleWaitlistSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast({
-      title: "Success!",
-      description: "You've been added to our waitlist. We'll notify you soon!",
-    });
+    setIsSubmitting(true);
+    
+    try {
+      // Use EmailJS or similar service to send the email
+      const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          service_id: "YOUR_SERVICE_ID", // Replace with your EmailJS service ID
+          template_id: "YOUR_TEMPLATE_ID", // Replace with your EmailJS template ID
+          user_id: "YOUR_USER_ID", // Replace with your EmailJS user ID
+          template_params: {
+            to_email: "sailajad@meraevents.com",
+            from_email: email,
+            message: `New waitlist signup from: ${email}`,
+            subject: "New ZenTask Waitlist Signup"
+          }
+        }),
+      });
+      
+      if (response.ok) {
+        toast({
+          title: "Success!",
+          description: "You've been added to our waitlist. We'll notify you soon!",
+        });
+        setEmail("");
+      } else {
+        throw new Error("Failed to send email");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast({
+        title: "Something went wrong",
+        description: "Unable to join waitlist at the moment. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   const openSurvey = () => {
@@ -98,15 +137,19 @@ const Index = () => {
                   <form onSubmit={handleWaitlistSubmit} className="max-w-md mx-auto flex gap-3">
                     <Input 
                       type="email" 
-                      placeholder="Enter your email address" 
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-[#F59E0B]"
+                      disabled={isSubmitting}
                     />
                     <Button 
                       type="submit"
                       className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium whitespace-nowrap"
+                      disabled={isSubmitting}
                     >
-                      Join Waitlist
+                      {isSubmitting ? "Joining..." : "Join Waitlist"}
                     </Button>
                   </form>
                 </div>
