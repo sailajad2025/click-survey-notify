@@ -29,24 +29,24 @@ export const BenefitsList = () => {
     }
   ];
 
-  // Color array derived from the image with purple, orange/yellow, and blue tones
+  // Color array with blue and yellow from the image
   const cardColors = [
-    'bg-[#D6BCFA]', // Light purple
-    'bg-[#D3E4FD]', // Light blue
-    'bg-[#FEF7CD]', // Light yellow
-    'bg-[#D3E4FD]', // Light blue
-    'bg-[#D6BCFA]', // Light purple
-    'bg-[#FEF7CD]', // Light yellow
+    'bg-blue-100', // Light blue
+    'bg-yellow-100', // Light yellow
+    'bg-blue-100', // Light blue
+    'bg-yellow-100', // Light yellow
+    'bg-blue-100', // Light blue
+    'bg-yellow-100', // Light yellow
   ];
 
-  // Text color array
+  // Text color array with blue and yellow from the image
   const textColors = [
-    'text-[#7E69AB]', // Dark purple
-    'text-[#33C3F0]', // Bright blue
-    'text-[#FF9F1C]', // Orange/yellow
-    'text-[#33C3F0]', // Bright blue
-    'text-[#7E69AB]', // Dark purple
-    'text-[#FF9F1C]', // Orange/yellow
+    'text-[#2454AA]', // Dark blue
+    'text-[#F59E0B]', // Golden yellow
+    'text-[#2454AA]', // Dark blue
+    'text-[#F59E0B]', // Golden yellow
+    'text-[#2454AA]', // Dark blue
+    'text-[#F59E0B]', // Golden yellow
   ];
 
   return (
