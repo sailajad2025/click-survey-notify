@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,36 +16,27 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Use EmailJS or similar service to send the email
-      const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          service_id: "YOUR_SERVICE_ID", // Replace with your EmailJS service ID
-          template_id: "YOUR_TEMPLATE_ID", // Replace with your EmailJS template ID
-          user_id: "YOUR_USER_ID", // Replace with your EmailJS user ID
-          template_params: {
-            to_email: "sailajad@meraevents.com",
-            from_email: email,
-            message: `New waitlist signup from: ${email}`,
-            subject: "New ZenTask Waitlist Signup"
-          }
-        }),
+      // For demo purposes, simulate successful submission
+      // In a real application, replace this with actual EmailJS or API implementation
+      console.log("Submitting email:", email);
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Show success message
+      toast({
+        title: "Success!",
+        description: "You've been added to our waitlist. We'll notify you soon!",
       });
       
-      if (response.ok) {
-        toast({
-          title: "Success!",
-          description: "You've been added to our waitlist. We'll notify you soon!",
-        });
-        setEmail("");
-      } else {
-        throw new Error("Failed to send email");
+      // Send an email notification (in production, implement server-side)
+      if (email) {
+        console.log("Email would be sent to sailajad@meraevents.com with:", email);
       }
+      
+      setEmail("");
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error processing submission:", error);
       toast({
         title: "Something went wrong",
         description: "Unable to join waitlist at the moment. Please try again later.",
