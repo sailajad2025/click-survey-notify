@@ -5,10 +5,11 @@ import { getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
 
 export const HeroSection: React.FC = () => {
   const googleSheetConfig = getGoogleSheetConfig();
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
   
   const handleJoinWaitlist = () => {
-    // Primary action: scroll to the waitlist form
-    document.getElementById("waitlist-form")?.scrollIntoView({ behavior: "smooth" });
+    // Open the Google Sheet in a new tab
+    window.open(sheetUrl, "_blank");
   };
 
   return (
