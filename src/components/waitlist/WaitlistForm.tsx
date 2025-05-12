@@ -23,6 +23,7 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
   openSurvey,
 }) => {
   const isConfigured = googleSheetConfig.spreadsheetId && googleSheetConfig.spreadsheetId.length > 10;
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
   
   return (
     <div className="container mx-auto px-4">
@@ -67,7 +68,7 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
             </form>
             {isConfigured ? (
               <p className="text-sm text-white/70 mt-2">
-                Your email will be saved to our Google Sheet.
+                Your email will be saved to our Google Sheet at <a href={sheetUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">this link</a>.
               </p>
             ) : (
               <p className="text-sm text-yellow-300 mt-2">

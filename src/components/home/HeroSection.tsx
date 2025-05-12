@@ -1,8 +1,16 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
 
 export const HeroSection: React.FC = () => {
+  const googleSheetConfig = getGoogleSheetConfig();
+  
+  const handleJoinWaitlist = () => {
+    // Primary action: scroll to the waitlist form
+    document.getElementById("waitlist-form")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className="py-10 md:py-16 bg-white">
       <div className="container mx-auto px-4 flex flex-col items-center text-center">
@@ -13,9 +21,7 @@ export const HeroSection: React.FC = () => {
           
           <div className="flex justify-center mb-6">
             <Button 
-              onClick={() => {
-                document.getElementById("waitlist-form")?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={handleJoinWaitlist}
               className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium px-8 py-3 h-auto text-lg rounded-full mx-auto"
             >
               Join Waitlist

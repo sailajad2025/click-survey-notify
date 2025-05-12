@@ -116,9 +116,11 @@ const extractSpreadsheetId = (input: string): string => {
 };
 
 export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
+  const defaultSpreadsheetId = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
+  
   // In a real app, you might get this from user settings or environment variables
   return {
-    spreadsheetId: localStorage.getItem('googleSheetId') || '',
+    spreadsheetId: localStorage.getItem('googleSheetId') || defaultSpreadsheetId,
     sheetName: localStorage.getItem('googleSheetName') || 'Sheet1'
   };
 };
