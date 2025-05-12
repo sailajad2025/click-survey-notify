@@ -24,6 +24,9 @@ export const Header: React.FC<HeaderProps> = ({
           />
           <h1 className="text-3xl font-bold text-white">ZenTask</h1>
         </div>
+        <div className="absolute top-6 right-4">
+          {googleSheetsConfigDialog}
+        </div>
       </div>
     </header>
   );
