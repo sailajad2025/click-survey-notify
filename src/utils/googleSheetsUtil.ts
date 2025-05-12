@@ -22,6 +22,8 @@ export const saveEmailToGoogleSheet = async (
     
     if (!cleanSpreadsheetId) {
       console.error('Invalid spreadsheet ID');
+      // Always save to localStorage as a backup
+      saveEmailLocally(email);
       return false;
     }
     
@@ -48,11 +50,13 @@ export const saveEmailToGoogleSheet = async (
         data = JSON.parse(responseText);
       } catch (e) {
         console.error('Failed to parse response as JSON:', e);
+        saveEmailLocally(email);
         return false;
       }
       
       if (!response.ok) {
         console.error('Google Sheets API error:', data);
+        saveEmailLocally(email);
         return false;
       }
       
@@ -60,24 +64,31 @@ export const saveEmailToGoogleSheet = async (
       
       if (data.error) {
         console.error('Google Sheets API error:', data.error);
+        saveEmailLocally(email);
         return false;
       }
       
-      // Store in localStorage as backup only on success
-      const savedEmails = JSON.parse(localStorage.getItem('waitlistEmails') || '[]');
-      if (!savedEmails.includes(email)) {
-        savedEmails.push(email);
-        localStorage.setItem('waitlistEmails', JSON.stringify(savedEmails));
-      }
-      
+      // Store in localStorage as backup on success too
+      saveEmailLocally(email);
       return true;
     } catch (apiError) {
       console.error('Error calling Google Sheets API:', apiError);
+      saveEmailLocally(email);
       return false;
     }
   } catch (error) {
     console.error('Error saving to Google Sheets:', error);
+    saveEmailLocally(email);
     return false;
+  }
+};
+
+// Save email to localStorage
+const saveEmailLocally = (email: string): void => {
+  const savedEmails = JSON.parse(localStorage.getItem('waitlistEmails') || '[]');
+  if (!savedEmails.includes(email)) {
+    savedEmails.push(email);
+    localStorage.setItem('waitlistEmails', JSON.stringify(savedEmails));
   }
 };
 
@@ -88,20 +99,30 @@ const extractSpreadsheetId = (input: string): string => {
   // Log the input for debugging
   console.log('Extracting ID from:', input);
   
-  // Special handling for PACX URLs
-  if (input.includes('/d/e/')) {
-    const match = input.match(/\/d\/e\/([a-zA-Z0-9-_]+)/);
+  // For published URLs with PACX format
+  if (input.includes('PACX-')) {
+    // Extract the ID between PACX- and the next / or ? or end of string
+    const match = input.match(/PACX-([a-zA-Z0-9-_]+)/i);
     if (match && match[1]) {
       console.log('Extracted PACX ID:', match[1]);
       return match[1];
     }
   }
   
-  // If the input contains "spreadsheets/d/" pattern, extract the ID
+  // Special handling for PACX URLs with /d/e/ pattern
+  if (input.includes('/d/e/')) {
+    const match = input.match(/\/d\/e\/([a-zA-Z0-9-_]+)/);
+    if (match && match[1]) {
+      console.log('Extracted /d/e/ ID:', match[1]);
+      return match[1];
+    }
+  }
+  
+  // Standard spreadsheet ID extraction
   if (input.includes('spreadsheets/d/')) {
     const match = input.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
     if (match && match[1]) {
-      console.log('Extracted ID:', match[1]);
+      console.log('Extracted standard ID:', match[1]);
       return match[1];
     }
   }
@@ -126,7 +147,8 @@ const extractSpreadsheetId = (input: string): string => {
 };
 
 export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
-  const defaultSpreadsheetId = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRm3h68Xrc5l1pg8RXC3xMWQtWJqfU41N6-ZuCsY4rrIuHX5HC-9Fgz6ne_hKE-rtnm9WsqIV3mVOVR/pub?gid=0&single=true&output=tsv";
+  // Use a direct spreadsheet ID instead of a published URL
+  const defaultSpreadsheetId = "1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE";
   
   // In a real app, you might get this from user settings or environment variables
   return {
