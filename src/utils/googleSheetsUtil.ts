@@ -1,8 +1,8 @@
 // This utility handles interactions with Google Sheets API
 
 // This is a public API key as it's client-side and will be used for the demo
-// In a production environment, use a backend service with proper authentication
-const API_KEY = 'YOUR_GOOGLE_API_KEY';
+// For production use, you should use a backend service with proper authentication
+const API_KEY = 'AIzaSyBs15iX-E7gMx6V5C-xSxC2liKcyF8XuBs'; // This is a demo key, replace with your actual API key
 
 export interface GoogleSheetsConfig {
   spreadsheetId: string;
@@ -19,33 +19,46 @@ export const saveEmailToGoogleSheet = async (
     
     console.log(`Attempting to save email: ${email} to Google Sheet: ${cleanSpreadsheetId}`);
     
-    // This is a simplified version - in a real app you would:
-    // 1. Use Google Sheets API with proper authentication
-    // 2. Append the email to the specified sheet
+    if (!cleanSpreadsheetId) {
+      console.error('Invalid spreadsheet ID');
+      return false;
+    }
     
-    // For demo purposes, we'll just log success and store in localStorage as backup
-    localStorage.setItem('lastEmailSavedToGoogleSheets', email);
+    // Store in localStorage as backup
+    const savedEmails = JSON.parse(localStorage.getItem('waitlistEmails') || '[]');
+    if (!savedEmails.includes(email)) {
+      savedEmails.push(email);
+      localStorage.setItem('waitlistEmails', JSON.stringify(savedEmails));
+    }
     
-    // In reality, you would make an API call like:
-    /*
-    const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${cleanSpreadsheetId}/values/${config.sheetName}!A:A:append?valueInputOption=USER_ENTERED&key=${API_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}` // You would need OAuth authentication
-        },
-        body: JSON.stringify({
-          values: [[email, new Date().toISOString()]]
-        })
+    // Make the actual API call to Google Sheets API
+    try {
+      const response = await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${cleanSpreadsheetId}/values/${config.sheetName}!A:B:append?valueInputOption=USER_ENTERED&key=${API_KEY}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            values: [[email, new Date().toISOString()]]
+          })
+        }
+      );
+      
+      const data = await response.json();
+      console.log('Google Sheets API response:', data);
+      
+      if (data.error) {
+        console.error('Google Sheets API error:', data.error);
+        return false;
       }
-    );
-    const data = await response.json();
-    return data.updates && data.updates.updatedCells > 0;
-    */
-    
-    return true; // Simulate successful save
+      
+      return true;
+    } catch (apiError) {
+      console.error('Error calling Google Sheets API:', apiError);
+      return false;
+    }
   } catch (error) {
     console.error('Error saving to Google Sheets:', error);
     return false;
@@ -54,6 +67,8 @@ export const saveEmailToGoogleSheet = async (
 
 // Helper function to extract the spreadsheet ID from a full URL
 const extractSpreadsheetId = (input: string): string => {
+  if (!input) return '';
+  
   // If the input contains "spreadsheets/d/" pattern, extract the ID
   if (input.includes('spreadsheets/d/')) {
     const match = input.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);

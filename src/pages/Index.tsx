@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/components/ui/sonner";
 import { saveEmailToGoogleSheet, getGoogleSheetConfig, saveGoogleSheetConfig, GoogleSheetsConfig } from "@/utils/googleSheetsUtil";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -11,7 +11,6 @@ import { WaitlistAdmin } from "@/components/waitlist/WaitlistAdmin";
 import { GoogleSheetsConfigDialog } from "@/components/settings/GoogleSheetsConfigDialog";
 
 const Index = () => {
-  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWaitlist, setShowWaitlist] = useState(false);
@@ -32,70 +31,48 @@ const Index = () => {
     e.preventDefault();
     
     if (!email || !email.includes('@')) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
+      toast.error("Please enter a valid email address.");
       return;
     }
     
     setIsSubmitting(true);
     
     try {
-      // Log the submission (for demonstration)
+      // Log the submission
       console.log("Email submitted to waitlist:", email);
       
-      // Store the email in localStorage as backup
-      const updatedEmails = [...waitlistEmails, email];
-      localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
-      setWaitlistEmails(updatedEmails);
+      // Check if Google Sheets is configured
+      if (!googleSheetConfig.spreadsheetId) {
+        // Store locally only
+        const updatedEmails = [...waitlistEmails, email];
+        localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
+        setWaitlistEmails(updatedEmails);
+        
+        toast.warning("Google Sheets not configured. Email saved locally only.");
+        setEmail("");
+        setIsSubmitting(false);
+        return;
+      }
       
       // Try to save to Google Sheets
-      let saveSuccessful = false;
-      let errorMessage = "";
+      const saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
       
-      if (googleSheetConfig.spreadsheetId) {
-        try {
-          saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
-        } catch (err) {
-          console.error("Error saving to Google Sheets:", err);
-          errorMessage = "Unable to save to Google Sheets. Your email is saved locally.";
-        }
-      } else {
-        errorMessage = "Google Sheets not configured. Your email is saved locally.";
-      }
-      
-      // Simulate a small delay to mimic network request
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // Show success message
       if (saveSuccessful) {
-        toast({
-          title: "Success!",
-          description: "You've been added to our waitlist and saved to Google Sheets!",
-        });
-      } else if (errorMessage) {
-        toast({
-          title: "Partially Successful",
-          description: errorMessage,
-          variant: "default",
-        });
+        // Update local state with the new email
+        const updatedEmails = [...waitlistEmails];
+        if (!updatedEmails.includes(email)) {
+          updatedEmails.push(email);
+          setWaitlistEmails(updatedEmails);
+        }
+        
+        toast.success("You've been added to our waitlist!");
+        setEmail("");
       } else {
-        toast({
-          title: "Success!",
-          description: "You've been added to our waitlist. We'll notify you soon!",
-        });
+        toast.error("Failed to save to Google Sheets. Email saved locally only.");
       }
-      
-      setEmail("");
     } catch (error) {
       console.error("Error processing submission:", error);
-      toast({
-        title: "Something went wrong",
-        description: "Unable to join waitlist at the moment. Please try again later.",
-        variant: "destructive",
-      });
+      toast.error("Something went wrong. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -108,10 +85,7 @@ const Index = () => {
   const clearWaitlist = () => {
     localStorage.removeItem('waitlistEmails');
     setWaitlistEmails([]);
-    toast({
-      title: "Waitlist Cleared",
-      description: "All waitlist email addresses have been cleared from local storage.",
-    });
+    toast.success("Waitlist cleared from local storage.");
   };
 
   const saveSheetSettings = () => {
@@ -121,10 +95,7 @@ const Index = () => {
     };
     saveGoogleSheetConfig(config);
     setGoogleSheetConfig(config);
-    toast({
-      title: "Settings Saved",
-      description: "Google Sheets configuration has been updated.",
-    });
+    toast.success("Google Sheets configuration has been updated.");
   };
 
   // Create configuration dialog component with props
