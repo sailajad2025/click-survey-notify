@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Task Management - ZenTask</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <!-- Navigation -->
@@ -19,38 +19,256 @@
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/about.html">About</a></li>
-        <li><a href="/projects.html">Projects</a></li>
+        <li><a href="/projects.html" class="active">Features</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
     </div>
   </header>
 
-  <!-- Feature Detail -->
-  <section style="padding-top: 100px;">
+  <!-- Feature Header -->
+  <section class="hero" style="min-height: 40vh;">
+    <div class="hero-content container">
+      <h1>Task <span>Management</span></h1>
+      <p>Never miss another assignment or deadline</p>
+    </div>
+  </section>
+
+  <!-- Feature Overview -->
+  <section>
     <div class="container">
-      <div class="blog-post">
-        <a href="/projects.html" class="back-link">&larr; Back to Features</a>
-        
-        <h1>Task Management</h1>
-        <img src="https://via.placeholder.com/800x400" alt="Task Management Feature">
-        
-        <div class="blog-post-content">
-          <p>ZenTask's Task Management feature is designed to help students stay organized and on top of their academic responsibilities. With intuitive tools for tracking homework, projects, and other academic tasks, students can prioritize their work and manage their time effectively.</p>
-          
-          <h3>Key Benefits:</h3>
-          <ul>
-            <li><strong>Centralized Task Tracking:</strong> Keep all assignments and homework in one place, accessible from any device.</li>
-            <li><strong>Priority Setting:</strong> Students can tag tasks by importance, helping them focus on what matters most.</li>
-            <li><strong>Due Date Reminders:</strong> Receive notifications as deadlines approach, reducing last-minute stress.</li>
-            <li><strong>Progress Monitoring:</strong> Track completion status with visual progress bars for longer projects.</li>
-            <li><strong>Subject Categorization:</strong> Organize tasks by subject or class for better management.</li>
-          </ul>
-          
-          <p>For parents, this feature provides valuable visibility into their child's workload, allowing them to offer timely support and encouragement. The clear overview helps parents understand what assignments are upcoming, preventing those stressful "I forgot I had a project due tomorrow" moments.</p>
-          
-          <p>With ZenTask's Task Management, students develop crucial time management and organizational skills that will benefit them throughout their academic careers and beyond. By learning to prioritize and track their responsibilities, students become more independent and self-sufficient learners.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;">
+        <div style="flex: 1; min-width: 300px;">
+          <img src="lovable-uploads/aebc0e17-c3db-4a12-b93b-376a63aeb353.png" alt="Task Management Interface" style="width: 100%; border-radius: 10px; box-shadow: var(--shadow);">
         </div>
+        <div style="flex: 1; min-width: 300px;">
+          <h2 style="color: var(--primary); margin-bottom: 20px;">Keep Track of Every Assignment</h2>
+          <p style="margin-bottom: 15px;">ZenTask's Task Management system is designed to help students stay on top of all their assignments, projects, and responsibilities with ease. No more forgotten homework or missed deadlines.</p>
+          <p style="margin-bottom: 15px;">Our intelligent system automatically organizes tasks by due date, priority, and subject, making it easy to see what needs attention first. With visual progress tracking and smart reminders, students always know what's coming up and when to start working.</p>
+          <div style="margin-top: 30px;">
+            <a href="/contact.html" class="btn">Request a Demo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Features -->
+  <section style="background-color: var(--bg-light);">
+    <div class="container">
+      <div class="section-title">
+        <h2>Key Features</h2>
+        <p>What makes ZenTask's task management special</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-sort-amount-down"></i>
+          </div>
+          <h3 class="feature-title">Smart Prioritization</h3>
+          <p>Automatically sorts tasks based on due dates, importance, and estimated completion time to help students focus on what matters most.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <h3 class="feature-title">Customizable Reminders</h3>
+          <p>Set personalized reminders based on assignment type and your work habits to ensure you start and complete tasks at the right time.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="feature-title">Progress Tracking</h3>
+          <p>Visualize your completion rate and track improvements over time with intuitive charts and statistics.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <h3 class="feature-title">Task Breakdown</h3>
+          <p>Break large projects into manageable sub-tasks to make complex assignments less overwhelming and easier to complete.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-sync"></i>
+          </div>
+          <h3 class="feature-title">Cross-platform Syncing</h3>
+          <p>Access and update your tasks from any device, ensuring you're always up to date whether at home, school, or on the go.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h3 class="feature-title">Calendar Integration</h3>
+          <p>Tasks automatically appear in your calendar view, giving you a comprehensive view of your schedule and workload.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section>
+    <div class="container">
+      <div class="section-title">
+        <h2>How It Works</h2>
+        <p>A simple process for effective task management</p>
+      </div>
+      
+      <div style="max-width: 800px; margin: 0 auto;">
+        <div style="display: flex; align-items: flex-start; margin-bottom: 40px;">
+          <div style="background-color: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0;">
+            <span>1</span>
+          </div>
+          <div>
+            <h3 style="color: var(--primary); margin-bottom: 10px;">Add Tasks</h3>
+            <p>Quickly add homework assignments, projects, tests, and other tasks. Include due dates, subject tags, and priority levels. ZenTask can also automatically import assignments from common school platforms.</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start; margin-bottom: 40px;">
+          <div style="background-color: var(--accent); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0;">
+            <span>2</span>
+          </div>
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 10px;">Organize Automatically</h3>
+            <p>ZenTask intelligently organizes your tasks by due date, subject, and priority. The AI even suggests when to start working on assignments based on your schedule and the estimated time needed.</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start; margin-bottom: 40px;">
+          <div style="background-color: var(--pink); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0;">
+            <span>3</span>
+          </div>
+          <div>
+            <h3 style="color: var(--pink); margin-bottom: 10px;">Receive Reminders</h3>
+            <p>Get smart notifications when it's time to start working on tasks, when deadlines are approaching, or when schedule conflicts arise that might impact your ability to complete assignments.</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: flex-start;">
+          <div style="background-color: var(--purple); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0;">
+            <span>4</span>
+          </div>
+          <div>
+            <h3 style="color: var(--purple); margin-bottom: 10px;">Track Progress</h3>
+            <p>Mark tasks as complete and track your progress over time. See patterns in your work habits and receive suggestions for improvement based on your performance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section style="background-color: var(--bg-light);">
+    <div class="container">
+      <div class="section-title">
+        <h2>What Users Say</h2>
+        <p>Real experiences with ZenTask's Task Management</p>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"Before ZenTask, I was constantly forgetting assignments until the last minute. Now I'm on top of everything, and my grades have improved significantly just by being organized."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Emily R.">
+            <div class="author-info">
+              <h4>Emily R.</h4>
+              <p>High School Junior</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"As a parent of three, keeping track of everyone's assignments was overwhelming. ZenTask has given me peace of mind knowing nothing is falling through the cracks."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="David M.">
+            <div class="author-info">
+              <h4>David M.</h4>
+              <p>Parent</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"The smart reminders feature is a game-changer. It knows when I need to start working on something based on my schedule, not just when it's due."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Jason K.">
+            <div class="author-info">
+              <h4>Jason K.</h4>
+              <p>College Freshman</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Features -->
+  <section>
+    <div class="container">
+      <div class="section-title">
+        <h2>Related Features</h2>
+        <p>Explore other ZenTask features that work well with Task Management</p>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
+        <div class="project-card">
+          <div class="card-img">
+            <img src="lovable-uploads/834bed29-d558-4b2b-b27e-77940598df8d.png" alt="Calendar">
+          </div>
+          <div class="card-content">
+            <h3>Activity Calendar</h3>
+            <p>View all your tasks and activities in a comprehensive calendar to avoid conflicts and plan effectively.</p>
+            <a href="/feature-calendar.html" class="btn">Learn More</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="card-img">
+            <img src="lovable-uploads/bc6600ff-e9b5-4aab-b474-6d4c0c3a155b.png" alt="Study Planning">
+          </div>
+          <div class="card-content">
+            <h3>Study Session Planner</h3>
+            <p>Create optimized study schedules that align with your task deadlines and learning preferences.</p>
+            <a href="/feature-study.html" class="btn">Learn More</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="card-img">
+            <img src="lovable-uploads/5fe61c6c-1dee-4827-b00b-67d9b1e66a3f.png" alt="Communication">
+          </div>
+          <div class="card-content">
+            <h3>Communication Center</h3>
+            <p>Discuss assignments with teachers and classmates directly within the task management system.</p>
+            <a href="/feature-communication.html" class="btn">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section style="background-color: var(--primary); color: white; text-align: center;">
+    <div class="container">
+      <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Ready to get organized?</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">Join thousands of students who are reducing stress and improving grades with ZenTask's Task Management system.</p>
+      <div>
+        <a href="/contact.html" class="btn" style="background-color: white; color: var(--primary); margin-right: 15px;">Request a Demo</a>
+        <a href="/projects.html" class="btn" style="background-color: var(--accent);">View All Features</a>
       </div>
     </div>
   </section>
@@ -74,7 +292,7 @@
           <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
-            <li><a href="/projects.html">Projects</a></li>
+            <li><a href="/projects.html">Features</a></li>
             <li><a href="/blog.html">Blog</a></li>
             <li><a href="/contact.html">Contact</a></li>
           </ul>
@@ -82,10 +300,10 @@
         <div class="footer-links">
           <h4>Features</h4>
           <ul>
-            <li><a href="/projects.html">Task Management</a></li>
-            <li><a href="/projects.html">Activity Calendar</a></li>
-            <li><a href="/projects.html">Performance Tracking</a></li>
-            <li><a href="/projects.html">Parent-Teacher Communication</a></li>
+            <li><a href="/feature-task.html">Task Management</a></li>
+            <li><a href="/feature-calendar.html">Activity Calendar</a></li>
+            <li><a href="/feature-dashboard.html">Student Dashboard</a></li>
+            <li><a href="/feature-communication.html">Communication Center</a></li>
           </ul>
         </div>
       </div>
