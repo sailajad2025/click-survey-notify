@@ -16,7 +16,14 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="w-full py-6 px-4 bg-[#2454AA]">
       <div className="container mx-auto text-center">
-        <h1 className="text-3xl font-bold text-white">ZenTask</h1>
+        <div className="flex items-center justify-center gap-3">
+          <img 
+            src="/lovable-uploads/28d6bfe8-5cdd-44f6-a342-918b2d2a603d.png" 
+            alt="ZenTask Logo" 
+            className="h-10 w-auto"
+          />
+          <h1 className="text-3xl font-bold text-white">ZenTask</h1>
+        </div>
       </div>
     </header>
   );
