@@ -16,9 +16,9 @@ export const HeroSection: React.FC = () => {
               onClick={() => {
                 document.getElementById("waitlist-form")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="bg-[#2454AA] hover:bg-[#1A4080] text-white font-medium px-8 py-3 h-auto text-lg rounded-full mx-auto"
+              className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium px-8 py-3 h-auto text-lg rounded-full mx-auto"
             >
-              Join Our Waitlist
+              Join Waitlist
             </Button>
           </div>
           
