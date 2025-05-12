@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button";
 import { BenefitsList } from "@/components/BenefitsList";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, List } from "lucide-react";
+import { ArrowRight, List, Settings } from "lucide-react";
 import emailjs from '@emailjs/browser';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { saveEmailToGoogleSheet, getGoogleSheetConfig, saveGoogleSheetConfig, GoogleSheetsConfig } from "@/utils/googleSheetsUtil";
 
 const Index = () => {
   const { toast } = useToast();
@@ -14,6 +17,9 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [waitlistEmails, setWaitlistEmails] = useState<string[]>([]);
+  const [googleSheetConfig, setGoogleSheetConfig] = useState<GoogleSheetsConfig>(getGoogleSheetConfig());
+  const [newSheetId, setNewSheetId] = useState(googleSheetConfig.spreadsheetId);
+  const [newSheetName, setNewSheetName] = useState(googleSheetConfig.sheetName);
   
   // Load emails from localStorage on component mount
   useEffect(() => {
@@ -31,10 +37,16 @@ const Index = () => {
       // Log the submission (for demonstration)
       console.log("Email submitted to waitlist:", email);
       
-      // Store the email in localStorage
+      // Store the email in localStorage as backup
       const updatedEmails = [...waitlistEmails, email];
       localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
       setWaitlistEmails(updatedEmails);
+      
+      // Try to save to Google Sheets
+      let saveSuccessful = false;
+      if (googleSheetConfig.spreadsheetId) {
+        saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
+      }
       
       // Simulate a small delay to mimic network request
       await new Promise(resolve => setTimeout(resolve, 800));
@@ -42,7 +54,9 @@ const Index = () => {
       // Show success message
       toast({
         title: "Success!",
-        description: "You've been added to our waitlist. We'll notify you soon!",
+        description: saveSuccessful 
+          ? "You've been added to our waitlist and saved to Google Sheets!" 
+          : "You've been added to our waitlist. We'll notify you soon!",
       });
       
       // In production, you would replace the above with actual EmailJS code:
@@ -82,7 +96,20 @@ const Index = () => {
     setWaitlistEmails([]);
     toast({
       title: "Waitlist Cleared",
-      description: "All waitlist email addresses have been cleared.",
+      description: "All waitlist email addresses have been cleared from local storage.",
+    });
+  };
+
+  const saveSheetSettings = () => {
+    const config = {
+      spreadsheetId: newSheetId,
+      sheetName: newSheetName || 'Sheet1'
+    };
+    saveGoogleSheetConfig(config);
+    setGoogleSheetConfig(config);
+    toast({
+      title: "Settings Saved",
+      description: "Google Sheets configuration has been updated.",
     });
   };
 
@@ -92,13 +119,60 @@ const Index = () => {
       <header className="w-full py-6 px-4 bg-[#2454AA]">
         <div className="container mx-auto text-center flex justify-between items-center">
           <h1 className="text-3xl font-bold text-white">ZenTask</h1>
-          <Button 
-            variant="ghost"
-            className="text-white hover:bg-[#1A4080]/50"
-            onClick={() => setShowWaitlist(!showWaitlist)}
-          >
-            <List className="h-5 w-5 mr-1" /> Admin
-          </Button>
+          <div className="flex items-center gap-4">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost"
+                  className="text-white hover:bg-[#1A4080]/50"
+                >
+                  <Settings className="h-5 w-5 mr-1" /> Settings
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Google Sheets Configuration</DialogTitle>
+                  <DialogDescription>
+                    Configure your Google Sheet to store waitlist emails.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="spreadsheetId">Google Spreadsheet ID</Label>
+                    <Input
+                      id="spreadsheetId"
+                      placeholder="Enter your Google Sheet ID"
+                      value={newSheetId}
+                      onChange={(e) => setNewSheetId(e.target.value)}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      You can find this in your Google Sheet URL: docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="sheetName">Sheet Name</Label>
+                    <Input
+                      id="sheetName"
+                      placeholder="Sheet1"
+                      value={newSheetName}
+                      onChange={(e) => setNewSheetName(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button onClick={saveSheetSettings}>Save Settings</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            
+            <Button 
+              variant="ghost"
+              className="text-white hover:bg-[#1A4080]/50"
+              onClick={() => setShowWaitlist(!showWaitlist)}
+            >
+              <List className="h-5 w-5 mr-1" /> Admin
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -108,9 +182,14 @@ const Index = () => {
           <div className="container mx-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Waitlist Emails</h2>
-              <Button variant="destructive" size="sm" onClick={clearWaitlist}>
-                Clear All
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  {googleSheetConfig.spreadsheetId ? "View in Google Sheets" : "Set Up Google Sheets"}
+                </Button>
+                <Button variant="destructive" size="sm" onClick={clearWaitlist}>
+                  Clear Local Storage
+                </Button>
+              </div>
             </div>
             
             {waitlistEmails.length === 0 ? (
@@ -124,7 +203,10 @@ const Index = () => {
                     </li>
                   ))}
                 </ul>
-                <p className="mt-3 text-sm text-gray-500">Total: {waitlistEmails.length} email(s)</p>
+                <p className="mt-3 text-sm text-gray-500">
+                  Total: {waitlistEmails.length} email(s)
+                  {googleSheetConfig.spreadsheetId && " (Also syncing to Google Sheets)"}
+                </p>
               </div>
             )}
           </div>
@@ -213,6 +295,11 @@ const Index = () => {
                       {isSubmitting ? "Joining..." : "Join Waitlist"}
                     </Button>
                   </form>
+                  {googleSheetConfig.spreadsheetId && (
+                    <p className="text-sm text-white/70 mt-2">
+                      Your email will be stored in our Google Sheet for follow-up.
+                    </p>
+                  )}
                 </div>
               </div>
               
