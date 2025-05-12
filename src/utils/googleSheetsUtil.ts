@@ -1,3 +1,4 @@
+
 // This utility handles interactions with Google Sheets API
 
 // This is a public API key as it's client-side and will be used for the demo
@@ -24,13 +25,6 @@ export const saveEmailToGoogleSheet = async (
       return false;
     }
     
-    // Store in localStorage as backup
-    const savedEmails = JSON.parse(localStorage.getItem('waitlistEmails') || '[]');
-    if (!savedEmails.includes(email)) {
-      savedEmails.push(email);
-      localStorage.setItem('waitlistEmails', JSON.stringify(savedEmails));
-    }
-    
     // Make the actual API call to Google Sheets API
     try {
       const response = await fetch(
@@ -46,12 +40,25 @@ export const saveEmailToGoogleSheet = async (
         }
       );
       
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Google Sheets API error:', errorData);
+        return false;
+      }
+      
       const data = await response.json();
       console.log('Google Sheets API response:', data);
       
       if (data.error) {
         console.error('Google Sheets API error:', data.error);
         return false;
+      }
+      
+      // Store in localStorage as backup only on success
+      const savedEmails = JSON.parse(localStorage.getItem('waitlistEmails') || '[]');
+      if (!savedEmails.includes(email)) {
+        savedEmails.push(email);
+        localStorage.setItem('waitlistEmails', JSON.stringify(savedEmails));
       }
       
       return true;
@@ -97,4 +104,9 @@ export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
 export const saveGoogleSheetConfig = (config: GoogleSheetsConfig): void => {
   localStorage.setItem('googleSheetId', config.spreadsheetId);
   localStorage.setItem('googleSheetName', config.sheetName);
+};
+
+export const isGoogleSheetConfigured = (): boolean => {
+  const config = getGoogleSheetConfig();
+  return !!config.spreadsheetId && config.spreadsheetId.length > 10;
 };

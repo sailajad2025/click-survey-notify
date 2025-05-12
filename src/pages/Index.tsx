@@ -1,7 +1,13 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "@/components/ui/sonner";
-import { saveEmailToGoogleSheet, getGoogleSheetConfig, saveGoogleSheetConfig, GoogleSheetsConfig } from "@/utils/googleSheetsUtil";
+import { 
+  saveEmailToGoogleSheet, 
+  getGoogleSheetConfig, 
+  saveGoogleSheetConfig, 
+  GoogleSheetsConfig,
+  isGoogleSheetConfigured 
+} from "@/utils/googleSheetsUtil";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -38,15 +44,17 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Log the submission
-      console.log("Email submitted to waitlist:", email);
+      // Check if Google Sheets is configured properly
+      const isConfigured = isGoogleSheetConfigured();
       
-      // Check if Google Sheets is configured
-      if (!googleSheetConfig.spreadsheetId) {
+      if (!isConfigured) {
         // Store locally only
-        const updatedEmails = [...waitlistEmails, email];
-        localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
-        setWaitlistEmails(updatedEmails);
+        const updatedEmails = [...waitlistEmails];
+        if (!updatedEmails.includes(email)) {
+          updatedEmails.push(email);
+          localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
+          setWaitlistEmails(updatedEmails);
+        }
         
         toast.warning("Google Sheets not configured. Email saved locally only.");
         setEmail("");
@@ -58,6 +66,8 @@ const Index = () => {
       const saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
       
       if (saveSuccessful) {
+        toast.success("You've been added to our waitlist!");
+        
         // Update local state with the new email
         const updatedEmails = [...waitlistEmails];
         if (!updatedEmails.includes(email)) {
@@ -65,10 +75,18 @@ const Index = () => {
           setWaitlistEmails(updatedEmails);
         }
         
-        toast.success("You've been added to our waitlist!");
         setEmail("");
       } else {
+        // Failed to save to Google Sheets, save locally as fallback
+        const updatedEmails = [...waitlistEmails];
+        if (!updatedEmails.includes(email)) {
+          updatedEmails.push(email);
+          localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
+          setWaitlistEmails(updatedEmails);
+        }
+        
         toast.error("Failed to save to Google Sheets. Email saved locally only.");
+        setEmail("");
       }
     } catch (error) {
       console.error("Error processing submission:", error);

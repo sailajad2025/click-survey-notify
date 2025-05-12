@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
@@ -22,6 +22,8 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
   googleSheetConfig,
   openSurvey,
 }) => {
+  const isConfigured = googleSheetConfig.spreadsheetId && googleSheetConfig.spreadsheetId.length > 10;
+  
   return (
     <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
@@ -63,9 +65,13 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
                 {isSubmitting ? "Joining..." : "Join Waitlist"}
               </Button>
             </form>
-            {googleSheetConfig.spreadsheetId && (
+            {isConfigured ? (
               <p className="text-sm text-white/70 mt-2">
-                Your email will be stored in our Google Sheet for follow-up.
+                Your email will be saved to our Google Sheet.
+              </p>
+            ) : (
+              <p className="text-sm text-yellow-300 mt-2">
+                Google Sheet not configured - emails will be saved locally only. ⚠️
               </p>
             )}
           </div>
