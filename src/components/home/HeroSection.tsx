@@ -5,12 +5,12 @@ import { getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
 
 export const HeroSection: React.FC = () => {
   const googleSheetConfig = getGoogleSheetConfig();
-  // Use direct spreadsheet URL for opening in browser
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
+  // Use the provided Google Document URL for opening in browser
+  const documentUrl = "https://docs.google.com/document/d/e/2PACX-1vTokYSlyyyD_seIGyMZwh0-DqrFWzuhODFmgUfG02AgWtjVSXFO7pn4ABBKdcmFq-_KZQnshQ4wy6lY/pub?embedded=true";
   
   const handleJoinWaitlist = () => {
-    // Open the Google Sheet in a new tab
-    window.open(sheetUrl, "_blank");
+    // Open the Google Document in a new tab
+    window.open(documentUrl, "_blank");
   };
 
   return (
