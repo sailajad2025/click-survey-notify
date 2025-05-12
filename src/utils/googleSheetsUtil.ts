@@ -1,4 +1,3 @@
-
 // This utility handles interactions with Google Sheets API
 
 // This is a public API key as it's client-side and will be used for the demo
@@ -27,26 +26,35 @@ export const saveEmailToGoogleSheet = async (
     
     // Make the actual API call to Google Sheets API
     try {
-      const response = await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/${cleanSpreadsheetId}/values/${config.sheetName}!A:B:append?valueInputOption=USER_ENTERED&key=${API_KEY}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            values: [[email, new Date().toISOString()]]
-          })
-        }
-      );
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${cleanSpreadsheetId}/values/${config.sheetName}!A:B:append?valueInputOption=USER_ENTERED&key=${API_KEY}`;
+      console.log('API URL:', url);
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Google Sheets API error:', errorData);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          values: [[email, new Date().toISOString()]]
+        })
+      });
+      
+      const responseText = await response.text();
+      console.log('Raw API Response:', responseText);
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error('Failed to parse response as JSON:', e);
         return false;
       }
       
-      const data = await response.json();
+      if (!response.ok) {
+        console.error('Google Sheets API error:', data);
+        return false;
+      }
+      
       console.log('Google Sheets API response:', data);
       
       if (data.error) {
@@ -76,17 +84,31 @@ export const saveEmailToGoogleSheet = async (
 const extractSpreadsheetId = (input: string): string => {
   if (!input) return '';
   
+  // Log the input for debugging
+  console.log('Extracting ID from:', input);
+  
   // If the input contains "spreadsheets/d/" pattern, extract the ID
   if (input.includes('spreadsheets/d/')) {
     const match = input.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
     if (match && match[1]) {
+      console.log('Extracted ID:', match[1]);
       return match[1];
     }
   }
   
   // If the input contains "/edit" or "#gid=" or "?gid=" pattern, clean it
   if (input.includes('/edit') || input.includes('#gid=') || input.includes('?gid=')) {
-    return input.split(/\/edit|#gid=|\?gid=/)[0];
+    const cleanId = input.split(/\/edit|#gid=|\?gid=/)[0];
+    // Further clean if the ID still contains the spreadsheet URL
+    if (cleanId.includes('spreadsheets/d/')) {
+      const match = cleanId.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (match && match[1]) {
+        console.log('Extracted ID from URL parts:', match[1]);
+        return match[1];
+      }
+    }
+    console.log('Cleaned ID:', cleanId);
+    return cleanId;
   }
   
   // Otherwise, return the input as is (assuming it's already a clean ID)
@@ -104,9 +126,25 @@ export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
 export const saveGoogleSheetConfig = (config: GoogleSheetsConfig): void => {
   localStorage.setItem('googleSheetId', config.spreadsheetId);
   localStorage.setItem('googleSheetName', config.sheetName);
+  
+  // Log the saved config for debugging
+  console.log('Saved Google Sheet config:', {
+    spreadsheetId: config.spreadsheetId,
+    extractedId: extractSpreadsheetId(config.spreadsheetId),
+    sheetName: config.sheetName
+  });
 };
 
 export const isGoogleSheetConfigured = (): boolean => {
   const config = getGoogleSheetConfig();
   return !!config.spreadsheetId && config.spreadsheetId.length > 10;
+};
+
+// Function to specifically set the provided spreadsheetId
+export const setSpreadsheetId = (spreadsheetId: string): void => {
+  const currentConfig = getGoogleSheetConfig();
+  saveGoogleSheetConfig({
+    ...currentConfig,
+    spreadsheetId: spreadsheetId
+  });
 };

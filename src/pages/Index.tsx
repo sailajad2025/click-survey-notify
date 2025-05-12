@@ -6,7 +6,8 @@ import {
   getGoogleSheetConfig, 
   saveGoogleSheetConfig, 
   GoogleSheetsConfig,
-  isGoogleSheetConfigured 
+  isGoogleSheetConfigured,
+  setSpreadsheetId
 } from "@/utils/googleSheetsUtil";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -24,6 +25,23 @@ const Index = () => {
   const [googleSheetConfig, setGoogleSheetConfig] = useState<GoogleSheetsConfig>(getGoogleSheetConfig());
   const [newSheetId, setNewSheetId] = useState(googleSheetConfig.spreadsheetId);
   const [newSheetName, setNewSheetName] = useState(googleSheetConfig.sheetName);
+  
+  // Set the default Google Sheet ID on component mount
+  useEffect(() => {
+    const defaultSpreadsheetId = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
+    
+    // Only set if not already configured
+    if (!googleSheetConfig.spreadsheetId) {
+      setSpreadsheetId(defaultSpreadsheetId);
+      // Update local state as well
+      setGoogleSheetConfig({
+        ...googleSheetConfig,
+        spreadsheetId: defaultSpreadsheetId
+      });
+      setNewSheetId(defaultSpreadsheetId);
+      console.log("Set default spreadsheet ID:", defaultSpreadsheetId);
+    }
+  }, []);
   
   // Load emails from localStorage on component mount
   useEffect(() => {
@@ -44,25 +62,9 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Check if Google Sheets is configured properly
-      const isConfigured = isGoogleSheetConfigured();
+      console.log("Current Google Sheet Config:", googleSheetConfig);
       
-      if (!isConfigured) {
-        // Store locally only
-        const updatedEmails = [...waitlistEmails];
-        if (!updatedEmails.includes(email)) {
-          updatedEmails.push(email);
-          localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
-          setWaitlistEmails(updatedEmails);
-        }
-        
-        toast.warning("Google Sheets not configured. Email saved locally only.");
-        setEmail("");
-        setIsSubmitting(false);
-        return;
-      }
-      
-      // Try to save to Google Sheets
+      // Always attempt to save to Google Sheets
       const saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
       
       if (saveSuccessful) {
