@@ -23,7 +23,7 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
   openSurvey,
 }) => {
   const isConfigured = googleSheetConfig.spreadsheetId && googleSheetConfig.spreadsheetId.length > 10;
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRm3h68Xrc5l1pg8RXC3xMWQtWJqfU41N6-ZuCsY4rrIuHX5HC-9Fgz6ne_hKE-rtnm9WsqIV3mVOVR/pub?gid=0&single=true&output=tsv";
   
   return (
     <div className="container mx-auto px-4">

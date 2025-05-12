@@ -5,7 +5,7 @@ import { getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
 
 export const HeroSection: React.FC = () => {
   const googleSheetConfig = getGoogleSheetConfig();
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRm3h68Xrc5l1pg8RXC3xMWQtWJqfU41N6-ZuCsY4rrIuHX5HC-9Fgz6ne_hKE-rtnm9WsqIV3mVOVR/pub?gid=0&single=true&output=tsv";
   
   const handleJoinWaitlist = () => {
     // Open the Google Sheet in a new tab

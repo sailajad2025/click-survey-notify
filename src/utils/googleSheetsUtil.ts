@@ -1,3 +1,4 @@
+
 // This utility handles interactions with Google Sheets API
 
 // This is a public API key as it's client-side and will be used for the demo
@@ -87,6 +88,15 @@ const extractSpreadsheetId = (input: string): string => {
   // Log the input for debugging
   console.log('Extracting ID from:', input);
   
+  // Special handling for PACX URLs
+  if (input.includes('/d/e/')) {
+    const match = input.match(/\/d\/e\/([a-zA-Z0-9-_]+)/);
+    if (match && match[1]) {
+      console.log('Extracted PACX ID:', match[1]);
+      return match[1];
+    }
+  }
+  
   // If the input contains "spreadsheets/d/" pattern, extract the ID
   if (input.includes('spreadsheets/d/')) {
     const match = input.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
@@ -116,7 +126,7 @@ const extractSpreadsheetId = (input: string): string => {
 };
 
 export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
-  const defaultSpreadsheetId = "https://docs.google.com/spreadsheets/d/1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE/edit?usp=sharing";
+  const defaultSpreadsheetId = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRm3h68Xrc5l1pg8RXC3xMWQtWJqfU41N6-ZuCsY4rrIuHX5HC-9Fgz6ne_hKE-rtnm9WsqIV3mVOVR/pub?gid=0&single=true&output=tsv";
   
   // In a real app, you might get this from user settings or environment variables
   return {
