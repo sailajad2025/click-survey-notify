@@ -30,6 +30,16 @@ const Index = () => {
   
   const handleWaitlistSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (!email || !email.includes('@')) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -43,20 +53,40 @@ const Index = () => {
       
       // Try to save to Google Sheets
       let saveSuccessful = false;
+      let errorMessage = "";
+      
       if (googleSheetConfig.spreadsheetId) {
-        saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
+        try {
+          saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
+        } catch (err) {
+          console.error("Error saving to Google Sheets:", err);
+          errorMessage = "Unable to save to Google Sheets. Your email is saved locally.";
+        }
+      } else {
+        errorMessage = "Google Sheets not configured. Your email is saved locally.";
       }
       
       // Simulate a small delay to mimic network request
       await new Promise(resolve => setTimeout(resolve, 800));
       
       // Show success message
-      toast({
-        title: "Success!",
-        description: saveSuccessful 
-          ? "You've been added to our waitlist and saved to Google Sheets!" 
-          : "You've been added to our waitlist. We'll notify you soon!",
-      });
+      if (saveSuccessful) {
+        toast({
+          title: "Success!",
+          description: "You've been added to our waitlist and saved to Google Sheets!",
+        });
+      } else if (errorMessage) {
+        toast({
+          title: "Partially Successful",
+          description: errorMessage,
+          variant: "default",
+        });
+      } else {
+        toast({
+          title: "Success!",
+          description: "You've been added to our waitlist. We'll notify you soon!",
+        });
+      }
       
       setEmail("");
     } catch (error) {
@@ -86,8 +116,8 @@ const Index = () => {
 
   const saveSheetSettings = () => {
     const config = {
-      spreadsheetId: newSheetId,
-      sheetName: newSheetName || 'Sheet1'
+      spreadsheetId: newSheetId.trim(),
+      sheetName: newSheetName.trim() || 'Sheet1'
     };
     saveGoogleSheetConfig(config);
     setGoogleSheetConfig(config);

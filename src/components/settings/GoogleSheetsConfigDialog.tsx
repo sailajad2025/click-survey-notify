@@ -51,7 +51,10 @@ export const GoogleSheetsConfigDialog: React.FC<GoogleSheetsConfigDialogProps> =
               onChange={(e) => setNewSheetId(e.target.value)}
             />
             <p className="text-xs text-muted-foreground">
-              You can find this in your Google Sheet URL: docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit
+              You can find this in your Google Sheet URL: docs.google.com/spreadsheets/d/<strong>[SPREADSHEET_ID]</strong>/edit
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              You can paste the full URL or just the ID - the system will extract the ID automatically.
             </p>
           </div>
           <div className="space-y-2">
@@ -62,6 +65,9 @@ export const GoogleSheetsConfigDialog: React.FC<GoogleSheetsConfigDialogProps> =
               value={newSheetName}
               onChange={(e) => setNewSheetName(e.target.value)}
             />
+            <p className="text-xs text-muted-foreground">
+              This is the name of the tab in your Google Sheet (default is "Sheet1").
+            </p>
           </div>
         </div>
         <DialogFooter>

@@ -1,4 +1,3 @@
-
 // This utility handles interactions with Google Sheets API
 
 // This is a public API key as it's client-side and will be used for the demo
@@ -15,7 +14,10 @@ export const saveEmailToGoogleSheet = async (
   config: GoogleSheetsConfig
 ): Promise<boolean> => {
   try {
-    console.log(`Attempting to save email: ${email} to Google Sheet: ${config.spreadsheetId}`);
+    // Clean the spreadsheet ID to remove any URL parts
+    const cleanSpreadsheetId = extractSpreadsheetId(config.spreadsheetId);
+    
+    console.log(`Attempting to save email: ${email} to Google Sheet: ${cleanSpreadsheetId}`);
     
     // This is a simplified version - in a real app you would:
     // 1. Use Google Sheets API with proper authentication
@@ -27,7 +29,7 @@ export const saveEmailToGoogleSheet = async (
     // In reality, you would make an API call like:
     /*
     const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${config.sheetName}!A:A:append?valueInputOption=USER_ENTERED&key=${API_KEY}`,
+      `https://sheets.googleapis.com/v4/spreadsheets/${cleanSpreadsheetId}/values/${config.sheetName}!A:A:append?valueInputOption=USER_ENTERED&key=${API_KEY}`,
       {
         method: 'POST',
         headers: {
@@ -48,6 +50,25 @@ export const saveEmailToGoogleSheet = async (
     console.error('Error saving to Google Sheets:', error);
     return false;
   }
+};
+
+// Helper function to extract the spreadsheet ID from a full URL
+const extractSpreadsheetId = (input: string): string => {
+  // If the input contains "spreadsheets/d/" pattern, extract the ID
+  if (input.includes('spreadsheets/d/')) {
+    const match = input.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+    if (match && match[1]) {
+      return match[1];
+    }
+  }
+  
+  // If the input contains "/edit" or "#gid=" or "?gid=" pattern, clean it
+  if (input.includes('/edit') || input.includes('#gid=') || input.includes('?gid=')) {
+    return input.split(/\/edit|#gid=|\?gid=/)[0];
+  }
+  
+  // Otherwise, return the input as is (assuming it's already a clean ID)
+  return input;
 };
 
 export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
