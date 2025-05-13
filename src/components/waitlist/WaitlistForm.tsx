@@ -48,7 +48,7 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
           </div>
 
           <div id="waitlist-form">
-            <p className="text-white mb-4">Or request an invite to get early access and exclusive updates:</p>
+            <p className="text-white mb-4">Or join our waitlist to get early access and exclusive updates:</p>
             <form onSubmit={handleWaitlistSubmit} className="max-w-md mx-auto flex gap-3">
               <Input 
                 type="email" 
@@ -64,7 +64,7 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
                 className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium whitespace-nowrap"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Submitting..." : "Request Invite"}
+                {isSubmitting ? "Joining..." : "Join Waitlist"}
               </Button>
             </form>
             {isConfigured ? (
