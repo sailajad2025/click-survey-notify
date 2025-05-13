@@ -1,16 +1,49 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/sonner";
+import { saveEmailToGoogleSheet, getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
 
 export const HeroSection: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const googleSheetConfig = getGoogleSheetConfig();
-  // Use the provided Google Doc URL for opening in browser
-  const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.41puokvj5x9r#heading=h.zeg1auslj27d";
   
-  const handleJoinWaitlist = () => {
-    // Open the Google Doc in a new tab
-    window.open(docUrl, "_blank");
+  // Use the provided Google Doc URL for opening in browser
+  const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.41puokvj5x9r";
+  
+  const handleJoinWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !email.includes('@')) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // First save the email to Google Sheet (Tab3)
+      const saveSuccessful = await saveEmailToGoogleSheet(email, {
+        ...googleSheetConfig,
+        sheetName: "Tab3" // Specifically target Tab3 for the emails
+      });
+      
+      if (saveSuccessful) {
+        toast.success("You've been added to our waitlist!");
+        setEmail("");
+        // Open the Google Doc in a new tab after successful submission
+        window.open(docUrl, "_blank");
+      } else {
+        toast.error("Unable to join waitlist. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error processing submission:", error);
+      toast.error("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -21,14 +54,26 @@ export const HeroSection: React.FC = () => {
             Is keeping track of your child's school activities, homework, and extracurriculars after school a <span className="text-[#F59E0B]">juggling</span> act?
           </h2>
           
-          <div className="flex justify-center mb-6">
-            <Button 
-              onClick={handleJoinWaitlist}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium px-8 py-3 h-auto text-lg rounded-full mx-auto"
-            >
-              Join Waitlist
-            </Button>
-          </div>
+          <form onSubmit={handleJoinWaitlist} className="w-full max-w-md mx-auto mb-6">
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Input
+                type="email"
+                placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="flex-grow"
+                disabled={isSubmitting}
+              />
+              <Button 
+                type="submit"
+                className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium px-8 py-3 h-auto text-lg rounded-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Joining..." : "Join Waitlist"}
+              </Button>
+            </div>
+          </form>
           
           <p className="text-lg text-gray-700 text-center">
             Discover ZenTask – the ultimate student activity tracker designed to bring peace of mind to busy parents and help students thrive!

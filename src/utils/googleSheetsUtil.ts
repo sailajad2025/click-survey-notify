@@ -18,7 +18,7 @@ export const saveEmailToGoogleSheet = async (
     // Clean the spreadsheet ID to remove any URL parts
     const cleanSpreadsheetId = extractSpreadsheetId(config.spreadsheetId);
     
-    console.log(`Attempting to save email: ${email} to Google Sheet: ${cleanSpreadsheetId}`);
+    console.log(`Attempting to save email: ${email} to Google Sheet: ${cleanSpreadsheetId}, Sheet: ${config.sheetName}`);
     
     if (!cleanSpreadsheetId) {
       console.error('Invalid spreadsheet ID');
@@ -29,7 +29,10 @@ export const saveEmailToGoogleSheet = async (
     
     // Make the actual API call to Google Sheets API
     try {
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${cleanSpreadsheetId}/values/${config.sheetName}!A:B:append?valueInputOption=USER_ENTERED&key=${API_KEY}`;
+      // Default to Sheet1 if no sheet name is provided, but allow for Tab3
+      const sheetName = config.sheetName || 'Sheet1';
+      
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${cleanSpreadsheetId}/values/${sheetName}!A:B:append?valueInputOption=USER_ENTERED&key=${API_KEY}`;
       console.log('API URL:', url);
       
       const response = await fetch(url, {
@@ -147,8 +150,8 @@ const extractSpreadsheetId = (input: string): string => {
 };
 
 export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
-  // Use a direct spreadsheet ID instead of a published URL
-  const defaultSpreadsheetId = "1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE";
+  // Use the document ID from the link provided by the user
+  const defaultSpreadsheetId = "15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ";
   
   // In a real app, you might get this from user settings or environment variables
   return {
