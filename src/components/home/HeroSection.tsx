@@ -67,7 +67,7 @@ export const HeroSection: React.FC = () => {
               />
               <Button 
                 type="submit"
-                className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium px-8 py-3 h-auto text-lg rounded-full"
+                className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium h-10 px-4 text-sm rounded-md"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Joining..." : "Join Waitlist"}
