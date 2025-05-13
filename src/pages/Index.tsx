@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { toast } from "@/components/ui/sonner";
 import { 
@@ -28,26 +27,35 @@ const Index = () => {
   
   // Set the default Google Sheet ID on component mount
   useEffect(() => {
-    const defaultSpreadsheetId = "1AG0eC_xhNJqpkSzgA0JB6Ys-jhhbZdHOHs5NZBgCmKE";
+    const defaultSpreadsheetId = "15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ";
     
     // Only set if not already configured
     if (!googleSheetConfig.spreadsheetId) {
-      setSpreadsheetId(defaultSpreadsheetId);
-      // Update local state as well
-      setGoogleSheetConfig({
-        ...googleSheetConfig,
-        spreadsheetId: defaultSpreadsheetId
-      });
-      setNewSheetId(defaultSpreadsheetId);
-      console.log("Set default spreadsheet ID:", defaultSpreadsheetId);
+      try {
+        setSpreadsheetId(defaultSpreadsheetId);
+        // Update local state as well
+        setGoogleSheetConfig({
+          ...googleSheetConfig,
+          spreadsheetId: defaultSpreadsheetId
+        });
+        setNewSheetId(defaultSpreadsheetId);
+        console.log("Set default spreadsheet ID:", defaultSpreadsheetId);
+      } catch (error) {
+        console.error("Error setting default spreadsheet ID:", error);
+      }
     }
   }, []);
   
   // Load emails from localStorage on component mount
   useEffect(() => {
-    const savedEmails = localStorage.getItem('waitlistEmails');
-    if (savedEmails) {
-      setWaitlistEmails(JSON.parse(savedEmails));
+    try {
+      const savedEmails = localStorage.getItem('waitlistEmails');
+      if (savedEmails) {
+        setWaitlistEmails(JSON.parse(savedEmails));
+      }
+    } catch (error) {
+      console.error("Error loading waitlist emails:", error);
+      setWaitlistEmails([]);
     }
   }, []);
   
@@ -82,9 +90,13 @@ const Index = () => {
         // Failed to save to Google Sheets, save locally as fallback
         const updatedEmails = [...waitlistEmails];
         if (!updatedEmails.includes(email)) {
-          updatedEmails.push(email);
-          localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
-          setWaitlistEmails(updatedEmails);
+          try {
+            updatedEmails.push(email);
+            localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
+            setWaitlistEmails(updatedEmails);
+          } catch (error) {
+            console.error("Error saving email to localStorage:", error);
+          }
         }
         
         toast.error("Failed to save to Google Sheets. Email saved locally only.");
@@ -99,23 +111,33 @@ const Index = () => {
   };
   
   const openSurvey = () => {
-    window.open("https://tally.so/r/meyybo", "_blank");
+    window.open("https://tally.so/r/meyybo", "_blank", "noopener,noreferrer");
   };
   
   const clearWaitlist = () => {
-    localStorage.removeItem('waitlistEmails');
-    setWaitlistEmails([]);
-    toast.success("Waitlist cleared from local storage.");
+    try {
+      localStorage.removeItem('waitlistEmails');
+      setWaitlistEmails([]);
+      toast.success("Waitlist cleared from local storage.");
+    } catch (error) {
+      console.error("Error clearing waitlist:", error);
+      toast.error("Failed to clear waitlist from local storage.");
+    }
   };
 
   const saveSheetSettings = () => {
-    const config = {
-      spreadsheetId: newSheetId.trim(),
-      sheetName: newSheetName.trim() || 'Sheet1'
-    };
-    saveGoogleSheetConfig(config);
-    setGoogleSheetConfig(config);
-    toast.success("Google Sheets configuration has been updated.");
+    try {
+      const config = {
+        spreadsheetId: newSheetId.trim(),
+        sheetName: newSheetName.trim() || 'Sheet1'
+      };
+      saveGoogleSheetConfig(config);
+      setGoogleSheetConfig(config);
+      toast.success("Google Sheets configuration has been updated.");
+    } catch (error) {
+      console.error("Error saving Google Sheets configuration:", error);
+      toast.error("Failed to save Google Sheets configuration.");
+    }
   };
 
   // Create configuration dialog component with props

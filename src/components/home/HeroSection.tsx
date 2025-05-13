@@ -11,7 +11,7 @@ export const HeroSection: React.FC = () => {
   const googleSheetConfig = getGoogleSheetConfig();
   
   // Use the provided Google Doc URL for opening in browser
-  const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.41puokvj5x9r";
+  const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.41puokvj5x9r#heading=h.zeg1auslj27d";
   
   const handleJoinWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export const HeroSection: React.FC = () => {
         toast.success("You've been added to our waitlist!");
         setEmail("");
         // Open the Google Doc in a new tab after successful submission
-        window.open(docUrl, "_blank");
+        window.open(docUrl, "_blank", "noopener,noreferrer");
       } else {
         toast.error("Unable to join waitlist. Please try again later.");
       }

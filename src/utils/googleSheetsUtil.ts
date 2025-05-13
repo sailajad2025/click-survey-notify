@@ -45,12 +45,17 @@ export const saveEmailToGoogleSheet = async (
         })
       });
       
-      const responseText = await response.text();
-      console.log('Raw API Response:', responseText);
-      
+      // Handle non-JSON responses gracefully
       let data;
+      let responseText = '';
+      
       try {
-        data = JSON.parse(responseText);
+        responseText = await response.text();
+        console.log('Raw API Response:', responseText);
+        
+        if (responseText) {
+          data = JSON.parse(responseText);
+        }
       } catch (e) {
         console.error('Failed to parse response as JSON:', e);
         saveEmailLocally(email);
@@ -58,14 +63,14 @@ export const saveEmailToGoogleSheet = async (
       }
       
       if (!response.ok) {
-        console.error('Google Sheets API error:', data);
+        console.error('Google Sheets API error:', data || responseText);
         saveEmailLocally(email);
         return false;
       }
       
       console.log('Google Sheets API response:', data);
       
-      if (data.error) {
+      if (data && data.error) {
         console.error('Google Sheets API error:', data.error);
         saveEmailLocally(email);
         return false;
@@ -88,10 +93,14 @@ export const saveEmailToGoogleSheet = async (
 
 // Save email to localStorage
 const saveEmailLocally = (email: string): void => {
-  const savedEmails = JSON.parse(localStorage.getItem('waitlistEmails') || '[]');
-  if (!savedEmails.includes(email)) {
-    savedEmails.push(email);
-    localStorage.setItem('waitlistEmails', JSON.stringify(savedEmails));
+  try {
+    const savedEmails = JSON.parse(localStorage.getItem('waitlistEmails') || '[]');
+    if (!savedEmails.includes(email)) {
+      savedEmails.push(email);
+      localStorage.setItem('waitlistEmails', JSON.stringify(savedEmails));
+    }
+  } catch (e) {
+    console.error('Failed to save email locally:', e);
   }
 };
 
@@ -130,14 +139,31 @@ const extractSpreadsheetId = (input: string): string => {
     }
   }
   
+  // Document ID extraction
+  if (input.includes('/document/d/')) {
+    const match = input.match(/\/document\/d\/([a-zA-Z0-9-_]+)/);
+    if (match && match[1]) {
+      console.log('Extracted document ID:', match[1]);
+      return match[1];
+    }
+  }
+  
   // If the input contains "/edit" or "#gid=" or "?gid=" pattern, clean it
-  if (input.includes('/edit') || input.includes('#gid=') || input.includes('?gid=')) {
-    const cleanId = input.split(/\/edit|#gid=|\?gid=/)[0];
+  if (input.includes('/edit') || input.includes('#gid=') || input.includes('?gid=') || input.includes('?tab=')) {
+    const cleanId = input.split(/\/edit|#gid=|\?gid=|\?tab=/)[0];
     // Further clean if the ID still contains the spreadsheet URL
     if (cleanId.includes('spreadsheets/d/')) {
       const match = cleanId.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
       if (match && match[1]) {
         console.log('Extracted ID from URL parts:', match[1]);
+        return match[1];
+      }
+    }
+    // Further clean if the ID still contains the document URL
+    if (cleanId.includes('/document/d/')) {
+      const match = cleanId.match(/\/document\/d\/([a-zA-Z0-9-_]+)/);
+      if (match && match[1]) {
+        console.log('Extracted document ID from URL parts:', match[1]);
         return match[1];
       }
     }
@@ -162,7 +188,7 @@ export const getGoogleSheetConfig = (): GoogleSheetsConfig => {
 
 export const saveGoogleSheetConfig = (config: GoogleSheetsConfig): void => {
   localStorage.setItem('googleSheetId', config.spreadsheetId);
-  localStorage.setItem('googleSheetName', config.sheetName);
+  localStorage.setItem('googleSheetName', config.sheetName || 'Sheet1');
   
   // Log the saved config for debugging
   console.log('Saved Google Sheet config:', {

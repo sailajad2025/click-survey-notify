@@ -25,10 +25,10 @@ export const WaitlistAdmin: React.FC<WaitlistAdminProps> = ({
     if (googleSheetConfig.spreadsheetId) {
       // If it's already a URL, use it directly
       if (googleSheetConfig.spreadsheetId.startsWith('http')) {
-        window.open(googleSheetConfig.spreadsheetId, '_blank');
+        window.open(googleSheetConfig.spreadsheetId, '_blank', "noopener,noreferrer");
       } else {
         // Otherwise construct a URL
-        window.open(`https://docs.google.com/spreadsheets/d/${extractedId}/edit`, '_blank');
+        window.open(`https://docs.google.com/spreadsheets/d/${extractedId}/edit`, '_blank', "noopener,noreferrer");
       }
     }
   };
