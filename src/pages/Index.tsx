@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { toast } from "@/components/ui/sonner";
 import { 
@@ -52,8 +53,8 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Direct link to the form with email prefilled
-      window.open(`https://tally.so/r/${tallyFormId}?email=${encodeURIComponent(email)}`, "_blank");
+      // Direct link to the form with email prefilled and autosubmit parameter
+      window.open(`https://tally.so/r/${tallyFormId}?email=${encodeURIComponent(email)}&autoSubmit=true`, "_blank");
       
       toast.success("You've been added to our waitlist!");
       

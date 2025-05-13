@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,6 @@ export const HeroSection: React.FC = () => {
   
   // Updated Tally.so form ID
   const tallyFormId = "wayLpv"; 
-  const tallySubmitEndpoint = `https://tally.so/submit/${tallyFormId}`;
   
   // Google Doc URL for opening in browser after submission
   const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.41puokvj5x9r#heading=h.zeg1auslj27d";
@@ -26,8 +24,8 @@ export const HeroSection: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Direct link to the form - this is more reliable than the API approach
-      window.open(`https://tally.so/r/${tallyFormId}?email=${encodeURIComponent(email)}`, "_blank");
+      // Direct link to the form with autosubmit parameter
+      window.open(`https://tally.so/r/${tallyFormId}?email=${encodeURIComponent(email)}&autoSubmit=true`, "_blank");
       
       toast.success("You've been added to our waitlist!");
       setEmail("");
