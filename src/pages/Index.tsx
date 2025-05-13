@@ -25,8 +25,8 @@ const Index = () => {
   const [newSheetId, setNewSheetId] = useState(googleSheetConfig.spreadsheetId);
   const [newSheetName, setNewSheetName] = useState(googleSheetConfig.sheetName);
   
-  // Tally.so form configuration
-  const tallyFormId = "meyybo"; // This is the same ID used in your survey
+  // Updated Tally.so form configuration
+  const tallyFormId = "wayLpv";
   const tallySubmitEndpoint = `https://tally.so/submit/${tallyFormId}`;
   
   // Load emails from localStorage on component mount
@@ -97,7 +97,7 @@ const Index = () => {
   };
   
   const openSurvey = () => {
-    window.open("https://tally.so/r/meyybo", "_blank", "noopener,noreferrer");
+    window.open("https://tally.so/r/wayLpv", "_blank", "noopener,noreferrer");
   };
   
   const clearWaitlist = () => {

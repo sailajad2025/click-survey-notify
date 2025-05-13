@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,8 +7,8 @@ export const HeroSection: React.FC = () => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Replace with your actual Tally.so form ID
-  const tallyFormId = "meyybo"; // This is the same ID used in your survey
+  // Updated Tally.so form ID
+  const tallyFormId = "wayLpv"; 
   const tallySubmitEndpoint = `https://tally.so/submit/${tallyFormId}`;
   
   // Google Doc URL for opening in browser after submission
@@ -66,7 +65,7 @@ export const HeroSection: React.FC = () => {
           </h2>
           
           <form onSubmit={handleJoinWaitlist} className="w-full max-w-md mx-auto mb-6">
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-row gap-2">
               <Input
                 type="email"
                 placeholder="Enter your email address"
@@ -78,7 +77,7 @@ export const HeroSection: React.FC = () => {
               />
               <Button 
                 type="submit"
-                className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium h-10 px-4 text-sm rounded-md"
+                className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium whitespace-nowrap"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Joining..." : "Join Waitlist"}

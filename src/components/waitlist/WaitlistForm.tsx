@@ -22,8 +22,8 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
   googleSheetConfig,
   openSurvey,
 }) => {
-  // Use the provided Tally.so form URL for display and linking
-  const tallyFormUrl = "https://tally.so/r/meyybo";
+  // Updated Tally.so form URL
+  const tallyFormUrl = "https://tally.so/r/wayLpv";
   
   return (
     <div className="container mx-auto px-4">
