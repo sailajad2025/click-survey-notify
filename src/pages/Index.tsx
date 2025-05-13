@@ -3,10 +3,10 @@ import { toast } from "@/components/ui/sonner";
 import { 
   saveEmailToGoogleSheet, 
   getGoogleSheetConfig, 
-  saveGoogleSheetConfig, 
   GoogleSheetsConfig,
   isGoogleSheetConfigured,
-  setSpreadsheetId
+  setSpreadsheetId,
+  saveGoogleSheetConfig
 } from "@/utils/googleSheetsUtil";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -25,26 +25,9 @@ const Index = () => {
   const [newSheetId, setNewSheetId] = useState(googleSheetConfig.spreadsheetId);
   const [newSheetName, setNewSheetName] = useState(googleSheetConfig.sheetName);
   
-  // Set the default Google Sheet ID on component mount
-  useEffect(() => {
-    const defaultSpreadsheetId = "15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ";
-    
-    // Only set if not already configured
-    if (!googleSheetConfig.spreadsheetId) {
-      try {
-        setSpreadsheetId(defaultSpreadsheetId);
-        // Update local state as well
-        setGoogleSheetConfig({
-          ...googleSheetConfig,
-          spreadsheetId: defaultSpreadsheetId
-        });
-        setNewSheetId(defaultSpreadsheetId);
-        console.log("Set default spreadsheet ID:", defaultSpreadsheetId);
-      } catch (error) {
-        console.error("Error setting default spreadsheet ID:", error);
-      }
-    }
-  }, []);
+  // Tally.so form configuration
+  const tallyFormId = "meyybo"; // This is the same ID used in your survey
+  const tallySubmitEndpoint = `https://tally.so/submit/${tallyFormId}`;
   
   // Load emails from localStorage on component mount
   useEffect(() => {
@@ -70,37 +53,40 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      console.log("Current Google Sheet Config:", googleSheetConfig);
+      // Submit the email to Tally.so
+      const response = await fetch(tallySubmitEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: {
+            email: email
+          }
+        }),
+      });
       
-      // Always attempt to save to Google Sheets
-      const saveSuccessful = await saveEmailToGoogleSheet(email, googleSheetConfig);
-      
-      if (saveSuccessful) {
+      if (response.ok) {
         toast.success("You've been added to our waitlist!");
         
-        // Update local state with the new email
+        // Update local state with the new email for admin view
         const updatedEmails = [...waitlistEmails];
         if (!updatedEmails.includes(email)) {
           updatedEmails.push(email);
           setWaitlistEmails(updatedEmails);
-        }
-        
-        setEmail("");
-      } else {
-        // Failed to save to Google Sheets, save locally as fallback
-        const updatedEmails = [...waitlistEmails];
-        if (!updatedEmails.includes(email)) {
+          
+          // Save to localStorage for persistence
           try {
-            updatedEmails.push(email);
             localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
-            setWaitlistEmails(updatedEmails);
           } catch (error) {
             console.error("Error saving email to localStorage:", error);
           }
         }
         
-        toast.error("Failed to save to Google Sheets. Email saved locally only.");
         setEmail("");
+      } else {
+        console.error("Tally submission error:", await response.text());
+        toast.error("Unable to join waitlist. Please try again later.");
       }
     } catch (error) {
       console.error("Error processing submission:", error);

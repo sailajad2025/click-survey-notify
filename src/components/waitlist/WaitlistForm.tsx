@@ -22,9 +22,8 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
   googleSheetConfig,
   openSurvey,
 }) => {
-  const isConfigured = googleSheetConfig.spreadsheetId && googleSheetConfig.spreadsheetId.length > 10;
-  // Use the provided Google Form URL for display and linking
-  const formUrl = "https://docs.google.com/forms/d/1TXe5cu4q0ht0pKNjeputB4uUFOygWV112Rgbr9Nb1P4/edit";
+  // Use the provided Tally.so form URL for display and linking
+  const tallyFormUrl = "https://tally.so/r/meyybo";
   
   return (
     <div className="container mx-auto px-4">
@@ -67,15 +66,9 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
                 {isSubmitting ? "Joining..." : "Join Waitlist"}
               </Button>
             </form>
-            {isConfigured ? (
-              <p className="text-sm text-white/70 mt-2">
-                Your email will be saved to our Google Form at <a href={formUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">this link</a>.
-              </p>
-            ) : (
-              <p className="text-sm text-yellow-300 mt-2">
-                Google Form not configured - emails will be saved locally only. ⚠️
-              </p>
-            )}
+            <p className="text-sm text-white/70 mt-2">
+              Your email will be saved to our Tally.so form at <a href={tallyFormUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">this link</a>.
+            </p>
           </div>
         </div>
         

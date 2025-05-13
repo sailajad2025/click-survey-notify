@@ -3,14 +3,16 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
-import { saveEmailToGoogleSheet, getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
 
 export const HeroSection: React.FC = () => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const googleSheetConfig = getGoogleSheetConfig();
   
-  // Use the provided Google Doc URL for opening in browser
+  // Replace with your actual Tally.so form ID
+  const tallyFormId = "meyybo"; // This is the same ID used in your survey
+  const tallySubmitEndpoint = `https://tally.so/submit/${tallyFormId}`;
+  
+  // Google Doc URL for opening in browser after submission
   const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.41puokvj5x9r#heading=h.zeg1auslj27d";
   
   const handleJoinWaitlist = async (e: React.FormEvent) => {
@@ -24,18 +26,27 @@ export const HeroSection: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // First save the email to Google Sheet (Tab3)
-      const saveSuccessful = await saveEmailToGoogleSheet(email, {
-        ...googleSheetConfig,
-        sheetName: "Tab3" // Specifically target Tab3 for the emails
+      // Submit the email to Tally.so
+      const response = await fetch(tallySubmitEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: {
+            email: email
+          }
+        }),
       });
       
-      if (saveSuccessful) {
+      if (response.ok) {
         toast.success("You've been added to our waitlist!");
         setEmail("");
+        
         // Open the Google Doc in a new tab after successful submission
         window.open(docUrl, "_blank", "noopener,noreferrer");
       } else {
+        console.error("Tally submission error:", await response.text());
         toast.error("Unable to join waitlist. Please try again later.");
       }
     } catch (error) {
