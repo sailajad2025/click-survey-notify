@@ -27,7 +27,6 @@ const Index = () => {
   
   // Updated Tally.so form configuration
   const tallyFormId = "wayLpv";
-  const tallySubmitEndpoint = `https://tally.so/submit/${tallyFormId}`;
   
   // Load emails from localStorage on component mount
   useEffect(() => {
@@ -53,41 +52,26 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Submit the email to Tally.so
-      const response = await fetch(tallySubmitEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            email: email
-          }
-        }),
-      });
+      // Direct link to the form with email prefilled
+      window.open(`https://tally.so/r/${tallyFormId}?email=${encodeURIComponent(email)}`, "_blank");
       
-      if (response.ok) {
-        toast.success("You've been added to our waitlist!");
+      toast.success("You've been added to our waitlist!");
+      
+      // Update local state with the new email for admin view
+      const updatedEmails = [...waitlistEmails];
+      if (!updatedEmails.includes(email)) {
+        updatedEmails.push(email);
+        setWaitlistEmails(updatedEmails);
         
-        // Update local state with the new email for admin view
-        const updatedEmails = [...waitlistEmails];
-        if (!updatedEmails.includes(email)) {
-          updatedEmails.push(email);
-          setWaitlistEmails(updatedEmails);
-          
-          // Save to localStorage for persistence
-          try {
-            localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
-          } catch (error) {
-            console.error("Error saving email to localStorage:", error);
-          }
+        // Save to localStorage for persistence
+        try {
+          localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
+        } catch (error) {
+          console.error("Error saving email to localStorage:", error);
         }
-        
-        setEmail("");
-      } else {
-        console.error("Tally submission error:", await response.text());
-        toast.error("Unable to join waitlist. Please try again later.");
       }
+      
+      setEmail("");
     } catch (error) {
       console.error("Error processing submission:", error);
       toast.error("Something went wrong. Please try again later.");
@@ -97,7 +81,7 @@ const Index = () => {
   };
   
   const openSurvey = () => {
-    window.open("https://tally.so/r/wayLpv", "_blank", "noopener,noreferrer");
+    window.open(`https://tally.so/r/${tallyFormId}`, "_blank", "noopener,noreferrer");
   };
   
   const clearWaitlist = () => {

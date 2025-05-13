@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,29 +26,12 @@ export const HeroSection: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Submit the email to Tally.so
-      const response = await fetch(tallySubmitEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            email: email
-          }
-        }),
-      });
+      // Direct link to the form - this is more reliable than the API approach
+      window.open(`https://tally.so/r/${tallyFormId}?email=${encodeURIComponent(email)}`, "_blank");
       
-      if (response.ok) {
-        toast.success("You've been added to our waitlist!");
-        setEmail("");
-        
-        // Open the Google Doc in a new tab after successful submission
-        window.open(docUrl, "_blank", "noopener,noreferrer");
-      } else {
-        console.error("Tally submission error:", await response.text());
-        toast.error("Unable to join waitlist. Please try again later.");
-      }
+      toast.success("You've been added to our waitlist!");
+      setEmail("");
+      
     } catch (error) {
       console.error("Error processing submission:", error);
       toast.error("Something went wrong. Please try again later.");
