@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
 import { GoogleSheetsConfig } from "@/utils/googleSheetsUtil";
 
@@ -15,15 +14,16 @@ interface WaitlistFormProps {
 }
 
 export const WaitlistForm: React.FC<WaitlistFormProps> = ({
-  email,
-  setEmail,
   isSubmitting,
-  handleWaitlistSubmit,
   googleSheetConfig,
   openSurvey,
 }) => {
   // Updated Tally.so form URL
   const tallyFormUrl = "https://tally.so/r/wayLpv";
+  
+  const openWaitlistForm = () => {
+    window.open(tallyFormUrl, "_blank", "noopener,noreferrer");
+  };
   
   return (
     <div className="container mx-auto px-4">
@@ -48,26 +48,17 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
 
           <div id="waitlist-form">
             <p className="text-white mb-4">Or join our waitlist to get early access and exclusive updates:</p>
-            <form onSubmit={handleWaitlistSubmit} className="max-w-md mx-auto flex gap-3">
-              <Input 
-                type="email" 
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-[#F59E0B]"
-                disabled={isSubmitting}
-              />
+            <div className="max-w-md mx-auto flex justify-center">
               <Button 
-                type="submit"
                 className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium whitespace-nowrap"
                 disabled={isSubmitting}
+                onClick={openWaitlistForm}
               >
                 {isSubmitting ? "Joining..." : "Join Waitlist"}
               </Button>
-            </form>
+            </div>
             <p className="text-sm text-white/70 mt-2">
-              Your email will be saved to our Tally.so form at <a href={tallyFormUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">this link</a>.
+              You'll be redirected to our Tally.so form at <a href={tallyFormUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">this link</a>.
             </p>
           </div>
         </div>

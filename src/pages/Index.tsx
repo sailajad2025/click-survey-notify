@@ -13,7 +13,6 @@ import {
 } from "@/utils/googleSheetsUtil";
 
 const Index = () => {
-  const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [waitlistEmails, setWaitlistEmails] = useState<string[]>([]);
@@ -34,51 +33,6 @@ const Index = () => {
       setWaitlistEmails([]);
     }
   }, []);
-  
-  const handleWaitlistSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email || !email.includes('@')) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
-    try {
-      // Trying different parameter formats that might work with Tally
-      const encodedEmail = encodeURIComponent(email);
-      
-      // Try multiple parameters since we're not sure which one will work with your form
-      const formUrl = `https://tally.so/r/${tallyFormId}?prefill_Email=${encodedEmail}&email=${encodedEmail}&prefill_email=${encodedEmail}&autoSubmit=1`;
-      
-      console.log("Opening form URL:", formUrl);
-      window.open(formUrl, "_blank");
-      
-      toast.success("You've been added to our waitlist!");
-      
-      // Update local state with the new email for admin view
-      const updatedEmails = [...waitlistEmails];
-      if (!updatedEmails.includes(email)) {
-        updatedEmails.push(email);
-        setWaitlistEmails(updatedEmails);
-        
-        // Save to localStorage for persistence
-        try {
-          localStorage.setItem('waitlistEmails', JSON.stringify(updatedEmails));
-        } catch (error) {
-          console.error("Error saving email to localStorage:", error);
-        }
-      }
-      
-      setEmail("");
-    } catch (error) {
-      console.error("Error processing submission:", error);
-      toast.error("Something went wrong. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
   
   const openSurvey = () => {
     window.open(`https://tally.so/r/${tallyFormId}`, "_blank", "noopener,noreferrer");
@@ -132,10 +86,10 @@ const Index = () => {
         {/* Ready to Experience Section */}
         <section className="py-16 bg-[#2454AA]">
           <WaitlistForm
-            email={email}
-            setEmail={setEmail}
+            email=""
+            setEmail={() => {}}
             isSubmitting={isSubmitting}
-            handleWaitlistSubmit={handleWaitlistSubmit}
+            handleWaitlistSubmit={() => {}}
             googleSheetConfig={googleSheetConfig}
             openSurvey={openSurvey}
           />
