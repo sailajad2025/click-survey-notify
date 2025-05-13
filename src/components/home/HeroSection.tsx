@@ -25,9 +25,10 @@ export const HeroSection: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Using Tally's recommended format for prefilling and auto-submitting
+      // Using Tally's correct format for prefilling fields
+      // The parameter format should be prefill_<field_name> instead of just the field name
       const encodedEmail = encodeURIComponent(email);
-      const formUrl = `https://tally.so/r/${tallyFormId}?email=${encodedEmail}&autoSubmit=1`;
+      const formUrl = `https://tally.so/r/${tallyFormId}?prefill_email=${encodedEmail}&autoSubmit=1`;
       console.log("Opening form URL:", formUrl);
       window.open(formUrl, "_blank");
       

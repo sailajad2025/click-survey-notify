@@ -35,7 +35,7 @@ const Index = () => {
     }
   }, []);
   
-  const handleWaitlistSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !email.includes('@')) {
@@ -46,9 +46,9 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Using Tally's recommended format for prefilling and auto-submitting
+      // Using Tally's correct format for prefilling fields
       const encodedEmail = encodeURIComponent(email);
-      const formUrl = `https://tally.so/r/${tallyFormId}?email=${encodedEmail}&autoSubmit=1`;
+      const formUrl = `https://tally.so/r/${tallyFormId}?prefill_email=${encodedEmail}&autoSubmit=1`;
       console.log("Opening form URL:", formUrl);
       window.open(formUrl, "_blank");
       
