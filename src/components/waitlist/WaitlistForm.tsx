@@ -23,8 +23,8 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
   openSurvey,
 }) => {
   const isConfigured = googleSheetConfig.spreadsheetId && googleSheetConfig.spreadsheetId.length > 10;
-  // Use the provided Google Document URL for display and linking
-  const documentUrl = "https://docs.google.com/document/d/e/2PACX-1vTokYSlyyyD_seIGyMZwh0-DqrFWzuhODFmgUfG02AgWtjVSXFO7pn4ABBKdcmFq-_KZQnshQ4wy6lY/pub?embedded=true";
+  // Use the provided Google Form URL for display and linking
+  const formUrl = "https://docs.google.com/forms/d/1TXe5cu4q0ht0pKNjeputB4uUFOygWV112Rgbr9Nb1P4/edit";
   
   return (
     <div className="container mx-auto px-4">
@@ -69,11 +69,11 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
             </form>
             {isConfigured ? (
               <p className="text-sm text-white/70 mt-2">
-                Your email will be saved to our Google Doc at <a href={documentUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">this link</a>.
+                Your email will be saved to our Google Form at <a href={formUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">this link</a>.
               </p>
             ) : (
               <p className="text-sm text-yellow-300 mt-2">
-                Google Document not configured - emails will be saved locally only. ⚠️
+                Google Form not configured - emails will be saved locally only. ⚠️
               </p>
             )}
           </div>
