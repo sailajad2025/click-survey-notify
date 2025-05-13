@@ -26,7 +26,7 @@ export const HeroSection: React.FC = () => {
               onClick={handleJoinWaitlist}
               className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium px-8 py-3 h-auto text-lg rounded-full mx-auto"
             >
-              Join Waitlist
+              Request Invite
             </Button>
           </div>
           
