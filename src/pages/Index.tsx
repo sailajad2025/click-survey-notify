@@ -1,21 +1,16 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "@/components/ui/sonner";
-import { 
-  saveEmailToGoogleSheet, 
-  getGoogleSheetConfig, 
-  GoogleSheetsConfig,
-  isGoogleSheetConfigured,
-  setSpreadsheetId,
-  saveGoogleSheetConfig
-} from "@/utils/googleSheetsUtil";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { BenefitsList } from "@/components/BenefitsList";
 import { WaitlistForm } from "@/components/waitlist/WaitlistForm";
 import { WaitlistAdmin } from "@/components/waitlist/WaitlistAdmin";
-import { GoogleSheetsConfigDialog } from "@/components/settings/GoogleSheetsConfigDialog";
+import { 
+  GoogleSheetsConfig,
+  getGoogleSheetConfig
+} from "@/utils/googleSheetsUtil";
 
 const Index = () => {
   const [email, setEmail] = useState("");
@@ -23,8 +18,6 @@ const Index = () => {
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [waitlistEmails, setWaitlistEmails] = useState<string[]>([]);
   const [googleSheetConfig, setGoogleSheetConfig] = useState<GoogleSheetsConfig>(getGoogleSheetConfig());
-  const [newSheetId, setNewSheetId] = useState(googleSheetConfig.spreadsheetId);
-  const [newSheetName, setNewSheetName] = useState(googleSheetConfig.sheetName);
   
   // Updated Tally.so form configuration
   const tallyFormId = "wayLpv";
@@ -99,40 +92,12 @@ const Index = () => {
     }
   };
 
-  const saveSheetSettings = () => {
-    try {
-      const config = {
-        spreadsheetId: newSheetId.trim(),
-        sheetName: newSheetName.trim() || 'Sheet1'
-      };
-      saveGoogleSheetConfig(config);
-      setGoogleSheetConfig(config);
-      toast.success("Google Sheets configuration has been updated.");
-    } catch (error) {
-      console.error("Error saving Google Sheets configuration:", error);
-      toast.error("Failed to save Google Sheets configuration.");
-    }
-  };
-
-  // Create configuration dialog component with props
-  const configDialog = (
-    <GoogleSheetsConfigDialog
-      googleSheetConfig={googleSheetConfig}
-      newSheetId={newSheetId}
-      newSheetName={newSheetName}
-      setNewSheetId={setNewSheetId}
-      setNewSheetName={setNewSheetName}
-      saveSheetSettings={saveSheetSettings}
-    />
-  );
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header/Navigation */}
       <Header 
         setShowWaitlist={setShowWaitlist} 
         showWaitlist={showWaitlist}
-        googleSheetsConfigDialog={configDialog}
       />
 
       {/* Admin Panel for Waitlist */}
