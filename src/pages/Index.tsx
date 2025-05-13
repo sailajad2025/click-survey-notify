@@ -46,9 +46,12 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Using Tally's correct format for prefilling fields
+      // Trying different parameter formats that might work with Tally
       const encodedEmail = encodeURIComponent(email);
-      const formUrl = `https://tally.so/r/${tallyFormId}?prefill_email=${encodedEmail}&autoSubmit=1`;
+      
+      // Try multiple parameters since we're not sure which one will work with your form
+      const formUrl = `https://tally.so/r/${tallyFormId}?prefill_Email=${encodedEmail}&email=${encodedEmail}&prefill_email=${encodedEmail}&autoSubmit=1`;
+      
       console.log("Opening form URL:", formUrl);
       window.open(formUrl, "_blank");
       
