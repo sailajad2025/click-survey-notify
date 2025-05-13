@@ -18,7 +18,8 @@ const Index = () => {
   const [waitlistEmails, setWaitlistEmails] = useState<string[]>([]);
   const [googleSheetConfig, setGoogleSheetConfig] = useState<GoogleSheetsConfig>(getGoogleSheetConfig());
   
-  // Updated Tally.so form configuration
+  // Updated Tally.so form URLs
+  const tallySurveyId = "meyybo";
   const tallyFormId = "wayLpv";
   
   // Load emails from localStorage on component mount
@@ -35,7 +36,7 @@ const Index = () => {
   }, []);
   
   const openSurvey = () => {
-    window.open(`https://tally.so/r/${tallyFormId}`, "_blank", "noopener,noreferrer");
+    window.open(`https://tally.so/r/${tallySurveyId}`, "_blank", "noopener,noreferrer");
   };
   
   const clearWaitlist = () => {

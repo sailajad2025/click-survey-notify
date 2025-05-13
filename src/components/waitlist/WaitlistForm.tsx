@@ -18,11 +18,18 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
   googleSheetConfig,
   openSurvey,
 }) => {
-  // Updated Tally.so form URL
+  // Updated Tally.so form URL for survey
+  const tallySurveyUrl = "https://tally.so/r/meyybo";
+  
+  // Original Tally.so form URL for waitlist
   const tallyFormUrl = "https://tally.so/r/wayLpv";
   
   const openWaitlistForm = () => {
     window.open(tallyFormUrl, "_blank", "noopener,noreferrer");
+  };
+  
+  const openSurveyForm = () => {
+    window.open(tallySurveyUrl, "_blank", "noopener,noreferrer");
   };
   
   return (
@@ -40,7 +47,7 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({
             <Button 
               size="lg"
               className="bg-[#D946EF] text-white hover:bg-[#C026D3] font-medium px-8 py-3 h-auto text-lg rounded-full"
-              onClick={openSurvey}
+              onClick={openSurveyForm}
             >
               <span className="font-bold">Take Our Survey</span> <ArrowRight className="ml-1" />
             </Button>
