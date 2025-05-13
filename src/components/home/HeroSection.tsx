@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,8 +25,11 @@ export const HeroSection: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Direct link to the form with autosubmit parameter
-      window.open(`https://tally.so/r/${tallyFormId}?email=${encodeURIComponent(email)}&autoSubmit=true`, "_blank");
+      // Using Tally's recommended format for prefilling and auto-submitting
+      const encodedEmail = encodeURIComponent(email);
+      const formUrl = `https://tally.so/r/${tallyFormId}?email=${encodedEmail}&autoSubmit=1`;
+      console.log("Opening form URL:", formUrl);
+      window.open(formUrl, "_blank");
       
       toast.success("You've been added to our waitlist!");
       setEmail("");
