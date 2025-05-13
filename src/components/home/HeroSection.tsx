@@ -6,7 +6,7 @@ import { getGoogleSheetConfig } from "@/utils/googleSheetsUtil";
 export const HeroSection: React.FC = () => {
   const googleSheetConfig = getGoogleSheetConfig();
   // Use the provided Google Doc URL for opening in browser
-  const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.kig9l1u6jalz#heading=h.kopa86ve31yl";
+  const docUrl = "https://docs.google.com/document/d/15Crh6l-zHRXJYkBsenWK-ceuiPtbx3PQsC3Q2vW9mPQ/edit?tab=t.kig9l1u6jalz";
   
   const handleJoinWaitlist = () => {
     // Open the Google Doc in a new tab
