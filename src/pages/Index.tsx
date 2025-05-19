@@ -81,7 +81,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4 text-center">
           <button
             onClick={toggleBrochure}
-            className="bg-[#2454AA] hover:bg-[#1a3d7c] text-white px-6 py-3 rounded-lg font-medium"
+            className="bg-[#1E3A8A] hover:bg-[#152C69] text-white px-6 py-3 rounded-lg font-medium"
           >
             {showBrochure ? "Hide Brochure" : "View ZenTask Brochure"}
           </button>
@@ -100,7 +100,7 @@ const Index = () => {
         <section className="py-16 bg-[#FFF8E6]">
           <div className="container mx-auto px-4 text-center">
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2454AA]">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#1E3A8A]">
                 Unlock Your Child's Potential with ZenTask:
               </h2>
             </div>
@@ -110,7 +110,7 @@ const Index = () => {
         </section>
 
         {/* Ready to Experience Section */}
-        <section className="py-16 bg-[#2454AA]">
+        <section className="py-16 bg-[#1E3A8A]">
           <WaitlistForm
             email=""
             setEmail={() => {}}

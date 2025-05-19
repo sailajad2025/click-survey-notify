@@ -6,10 +6,10 @@ export const Brochure: React.FC = () => {
   return (
     <div className="flex flex-col md:flex-row overflow-hidden rounded-lg shadow-xl max-w-6xl mx-auto">
       {/* Left column */}
-      <div className="w-full md:w-1/2 bg-[#2454AA] text-white p-8">
+      <div className="w-full md:w-1/2 bg-[#1E3A8A] text-white p-8">
         <div className="flex items-center mb-8">
-          <div className="bg-[#FFD54F] rounded-full p-4 mr-4">
-            <Check className="h-8 w-8 text-[#2454AA]" />
+          <div className="bg-[#FFDF70] rounded-full p-4 mr-4">
+            <Check className="h-8 w-8 text-[#1E3A8A]" />
           </div>
           <div className="text-4xl font-bold tracking-tighter">
             ZEN<br />TASK
@@ -70,10 +70,10 @@ export const Brochure: React.FC = () => {
       <div className="w-full md:w-1/2">
         {/* Top section - light blue */}
         <div className="bg-[#D3E4FD] p-8">
-          <h2 className="text-2xl font-bold text-[#2454AA] mb-4 text-center">
+          <h2 className="text-2xl font-bold text-[#1E3A8A] mb-4 text-center">
             Smart After-School<br />Scheduler for<br />Parents and Students
           </h2>
-          <p className="text-center text-[#2454AA] font-bold text-xl mt-6">
+          <p className="text-center text-[#1E3A8A] font-bold text-xl mt-6">
             <a href="https://www.zentask.in" className="hover:underline">
               www.zentask.in
             </a>
@@ -82,8 +82,8 @@ export const Brochure: React.FC = () => {
 
         {/* Middle section - light yellow */}
         <div className="bg-[#FFF8E6] p-8">
-          <h2 className="text-2xl font-bold text-[#2454AA] mb-4">Target Users</h2>
-          <ul className="list-none space-y-3 mb-6 text-[#2454AA]">
+          <h2 className="text-2xl font-bold text-[#1E3A8A] mb-4">Target Users</h2>
+          <ul className="list-none space-y-3 mb-6 text-[#1E3A8A]">
             <li className="flex">
               <span className="mr-2">•</span> 
               <span>Parents of children aged 6-16</span>
@@ -98,8 +98,8 @@ export const Brochure: React.FC = () => {
             </li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-[#2454AA] mt-6 mb-4">Current Stage</h2>
-          <ul className="list-none space-y-3 text-[#2454AA]">
+          <h2 className="text-2xl font-bold text-[#1E3A8A] mt-6 mb-4">Current Stage</h2>
+          <ul className="list-none space-y-3 text-[#1E3A8A]">
             <li className="flex">
               <span className="mr-2">•</span> 
               <span>Product in development (early prototype)</span>
@@ -115,22 +115,22 @@ export const Brochure: React.FC = () => {
             </li>
             <li className="flex">
               <span className="mr-2">•</span> 
-              <span>Location Hyderabad, India</span>
+              <span>Location: Hyderabad, India</span>
             </li>
           </ul>
         </div>
 
         {/* Bottom sections */}
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="bg-[#2454AA] p-8 text-white">
+          <div className="bg-[#1E3A8A] p-8 text-white">
             <h2 className="text-2xl font-bold mb-4">Business Model</h2>
             <p>
               ZenTask will operate on a premium subscription model
             </p>
           </div>
           <div className="bg-[#D3E4FD] p-8">
-            <h2 className="text-2xl font-bold mb-4 text-[#2454AA]">Contact</h2>
-            <p className="text-[#2454AA]">
+            <h2 className="text-2xl font-bold mb-4 text-[#1E3A8A]">Contact</h2>
+            <p className="text-[#1E3A8A]">
               <a href="mailto:sailajad@zentask.in" className="hover:underline block mb-2">
                 sailajad@zentask.in
               </a>
