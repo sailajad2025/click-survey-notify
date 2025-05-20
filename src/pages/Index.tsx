@@ -4,7 +4,6 @@ import { toast } from "@/components/ui/sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
-import { Brochure } from "@/components/home/Brochure";
 import { BenefitsList } from "@/components/BenefitsList";
 import { WaitlistForm } from "@/components/waitlist/WaitlistForm";
 import { WaitlistAdmin } from "@/components/waitlist/WaitlistAdmin";
@@ -18,7 +17,6 @@ const Index = () => {
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [waitlistEmails, setWaitlistEmails] = useState<string[]>([]);
   const [googleSheetConfig, setGoogleSheetConfig] = useState<GoogleSheetsConfig>(getGoogleSheetConfig());
-  const [showBrochure, setShowBrochure] = useState(false);
   
   // Updated Tally.so form URLs
   const tallySurveyId = "meyybo";
@@ -52,10 +50,6 @@ const Index = () => {
     }
   };
 
-  const toggleBrochure = () => {
-    setShowBrochure(!showBrochure);
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header/Navigation */}
@@ -77,30 +71,11 @@ const Index = () => {
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Brochure Button */}
-        <div className="container mx-auto px-4 py-4 text-center">
-          <button
-            onClick={toggleBrochure}
-            className="bg-[#1E3A8A] hover:bg-[#152C69] text-white px-6 py-3 rounded-lg font-medium"
-          >
-            {showBrochure ? "Hide Brochure" : "View ZenTask Brochure"}
-          </button>
-        </div>
-
-        {/* Brochure Section - conditionally shown */}
-        {showBrochure && (
-          <section className="py-8 bg-white">
-            <div className="container mx-auto px-4">
-              <Brochure />
-            </div>
-          </section>
-        )}
-
         {/* Benefits Section */}
         <section className="py-16 bg-[#FFF8E6]">
           <div className="container mx-auto px-4 text-center">
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#1E3A8A]">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2454AA]">
                 Unlock Your Child's Potential with ZenTask:
               </h2>
             </div>
@@ -110,7 +85,7 @@ const Index = () => {
         </section>
 
         {/* Ready to Experience Section */}
-        <section className="py-16 bg-[#1E3A8A]">
+        <section className="py-16 bg-[#2454AA]">
           <WaitlistForm
             email=""
             setEmail={() => {}}

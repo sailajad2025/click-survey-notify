@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
   const scrollToWaitlist = () => {
@@ -20,26 +19,15 @@ export const HeroSection: React.FC = () => {
             Is keeping track of your child's school activities, homework, and extracurriculars after school a <span className="text-[#F59E0B]">juggling</span> act?
           </h2>
           
-          <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
-            <Button 
-              onClick={scrollToWaitlist}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium"
-            >
-              Join Waitlist
-            </Button>
-            
-            <a 
-              href="https://zentask.in" 
-              target="_blank"
-              rel="noopener noreferrer" 
-              className="flex items-center text-[#2454AA] hover:text-[#F59E0B] font-medium transition-colors"
-            >
-              Visit zentask.in <ExternalLink className="ml-1 h-4 w-4" />
-            </a>
-          </div>
+          <Button 
+            onClick={scrollToWaitlist}
+            className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-medium mb-6"
+          >
+            Join Waitlist
+          </Button>
           
           <p className="text-lg text-gray-700 text-center">
-            Discover Zentask – the ultimate student activity tracker designed to bring peace of mind to busy parents and help students thrive!
+            Discover ZenTask – the ultimate student activity tracker designed to bring peace of mind to busy parents and help students thrive!
           </p>
         </div>
       </div>
